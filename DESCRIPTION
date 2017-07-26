@@ -1,7 +1,7 @@
 Package: pepliner
 Title: MS Data Visualization
 Version: 0.1
-Authors@R: person(“Nicolas”, “Gort Freitas“, email = “nicolas@minerva.kgi.edu”, role = c("aut", "cre"))
+Authors@R: person("Nicolas", "Gort Freitas", email = "nicolas@minerva.kgi.edu", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends: R (>= 3.4.1)
 License: What license is it under?

@@ -4,18 +4,20 @@
 \alias{cov_columns}
 \title{Append columns related to the coverage of a protein.}
 \usage{
-cov_columns(data_table, elementid)
+cov_columns(data_table, proteome,
+  outname = paste0(deparse(substitute(data_table)), "_cov.csv"), groupid,
+  elementid, export = FALSE)
 }
 \arguments{
 \item{data_table}{Data frame to which the coverage columns will be appended.}
-
-\item{elementid}{Data frame column (factor) corresponding to the peptide sequence to be searched against the sequences extracted from the FASTA file.}
 
 \item{proteome}{FASTA file from which the sequences will be extracted.}
 
 \item{outname}{If export = TRUE, output the resulting .}
 
 \item{groupid}{Data frame column (factor) corresponding to the protein name to be matched with the IDs extracted from the FASTA file.}
+
+\item{elementid}{Data frame column (factor) corresponding to the peptide sequence to be searched against the sequences extracted from the FASTA file.}
 
 \item{export}{If false (default), return a data frame. If true, write a .csv file named after the input file + '_cov.csv'.}
 }
