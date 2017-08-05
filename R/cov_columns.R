@@ -74,7 +74,7 @@ cov_columns <- function(data_table,proteome,outname=paste0(deparse(substitute(da
 
     cov_cols <- data.frame(Length,Start,End,Appearance)
 
-    out_table <- cbind(tmp,cov_cols)
+    out_table <- cbind(data_table,cov_cols)
     if(export==FALSE){
         return(out_table)
     }else{

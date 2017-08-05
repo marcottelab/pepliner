@@ -1,9 +1,9 @@
 #' Fill missing x-axis values with zero.
 #'
 #' @param raw_data Data frame
-#' @param outname If export = TRUE, output the resulting .
-#' @param xaxis Name of the column with X-axis values
-#' @param yaxis Name of the column with Y-axis values
+#' @param outname If export = TRUE, output the resulting data frame named after this argument.
+#' @param xaxis Name of the column with X-axis values.
+#' @param yaxis Name of the column with Y-axis values.
 #' @import dplyr
 #' @import tidyr
 #' @import lazyeval

@@ -56,7 +56,7 @@ sparkplot_row <- function(z,elementid,xaxis,yaxis,condit){
 
 #Tcell_2502_Cyto_sequence_annotated.csv
 
-#' Make a line plot for each element of a group
+#' Make a line plot for each element of a group.
 #'
 #' @param input_data Data frame to which the coverage columns will be appended.
 #' @param groupid Data frame column (factor) corresponding to the names of the groups of elements in the data.
@@ -78,7 +78,7 @@ sparkplot_row <- function(z,elementid,xaxis,yaxis,condit){
 #' @examples
 #' 'ms_data.csv' %>% complete_counts() %>% sparkplot(groupid='ID',elementid='Peptide',xaxis='FractionID',yaxis='PeptideCount')
 
-sparkplot <- function(input_data,groupid='',group_name='',elementid,xaxis,yaxis,condit='',sort_column=''){
+sparkplot <- function(input_data,elementid,xaxis,yaxis,groupid='',group_name='',condit='',sort_column=''){
 
     pre_data <- input_data[colnames(input_data)%in%c(groupid,elementid,xaxis,yaxis,condit,'Start')]
 

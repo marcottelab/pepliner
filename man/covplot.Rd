@@ -4,8 +4,8 @@
 \alias{covplot}
 \title{Make a coverage plot for all the peptides retrieved for a single protein.}
 \usage{
-covplot(input_data, group_name = "", sort_column = "", groupid = "",
-  elementid, xaxis, yaxis, condit = "")
+covplot(input_data, group_name = "", sort_column = "Start", groupid = "",
+  elementid)
 }
 \arguments{
 \item{input_data}{Data frame to which the coverage columns will be appended.}
@@ -17,12 +17,6 @@ covplot(input_data, group_name = "", sort_column = "", groupid = "",
 \item{groupid}{Data frame column (factor) corresponding to the names of the groups of elements in the data.}
 
 \item{elementid}{Data frame column (factor) corresponding to the elements for each of which a row of the final plot will be produced.}
-
-\item{xaxis}{X-axis values for each sub-plot. Must match across elements.}
-
-\item{yaxis}{Y-axis values for each sub-plot. The final plot normalizes these values for each row.}
-
-\item{condit}{(Optional) Name of the condition column from the data frame. Data points corresponding to different values of condit will be plotted with a different color/linetype.}
 }
 \value{
 ggplot item to be plotted using cowplot::ggdraw().
@@ -31,5 +25,5 @@ ggplot item to be plotted using cowplot::ggdraw().
 Make a coverage plot for all the peptides retrieved for a single protein.
 }
 \examples{
-'ms_data.csv' \%>\% complete_counts() \%>\% sparkplot(groupid='ID',elementid='Peptide',xaxis='FractionID',yaxis='PeptideCount')
+'ms_data.csv' \%>\% complete_counts() \%>\% covplot(groupid='ID',elementid='Peptide',sort_column='Start') \%>\% ggdraw
 }

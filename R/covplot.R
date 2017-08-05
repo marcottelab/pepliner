@@ -45,9 +45,6 @@ covplot_row <- function(row,elementid){
 #' @param groupid Data frame column (factor) corresponding to the names of the groups of elements in the data.
 #' @param group_name (Optional) If specified, make plots from only those rows whose ID matched this argument.
 #' @param elementid Data frame column (factor) corresponding to the elements for each of which a row of the final plot will be produced.
-#' @param xaxis X-axis values for each sub-plot. Must match across elements.
-#' @param yaxis Y-axis values for each sub-plot. The final plot normalizes these values for each row.
-#' @param condit (Optional) Name of the condition column from the data frame. Data points corresponding to different values of condit will be plotted with a different color/linetype.
 #' @param sort_column (Optional) If specified, rows in the final plot will be sorted according to this (numeric) column.
 #' @import dplyr
 #' @import tidyr
@@ -59,11 +56,11 @@ covplot_row <- function(row,elementid){
 ## @seealso \code{\link{nchar}} which this function wraps
 #' @export
 #' @examples
-#' 'ms_data.csv' %>% complete_counts() %>% sparkplot(groupid='ID',elementid='Peptide',xaxis='FractionID',yaxis='PeptideCount')
+#' 'ms_data.csv' %>% complete_counts() %>% covplot(groupid='ID',elementid='Peptide',sort_column='Start') %>% ggdraw
 
-covplot <- function(input_data,group_name='',sort_column='',groupid='',elementid,xaxis,yaxis,condit=''){
+covplot <- function(input_data,group_name='',sort_column='Start',groupid='',elementid){
 
-    pre_data <- input_data[colnames(input_data)%in%c(groupid,elementid,xaxis,yaxis,condit,'Start','End','Length')]
+    pre_data <- input_data[colnames(input_data)%in%c(groupid,elementid,'Start','End','Length')]
 
     if(groupid!=''&group_name!=''){
         data_group <- pre_data[pre_data[colnames(pre_data)==groupid]==group_name,] #not elegant, but hey! {base}
@@ -71,27 +68,12 @@ covplot <- function(input_data,group_name='',sort_column='',groupid='',elementid
         data_group <- pre_data
     }
 
-    # cov_data <- data_group
-    # # filter for a single protein in a list
-    # # To do: order n term to c term using start and end
-    # Make a wide matrix from the tidy data
-
-    data_wide <- spread_(data_group, xaxis, yaxis)
-
-    #Fill in NA with 0's to com plete the matrix
-    data_wide[is.na(data_wide)] <- 0
-
-    #Turn the wide matrix tidy.
-    cov_data <- data_wide %>% gather_(xaxis, yaxis, names(.)[!names(.)%in%c(groupid,elementid,'Start','End','Length','Appearance',condit,sort_column)])
+    cov_data <- data_group
 
     #Feed peptides into cov_row function
     cov_data = droplevels(cov_data)
 
-    if(sort_column!=''){
-        cov_data[,colnames(cov_data)==elementid] <- reorder(cov_data[,colnames(cov_data)==elementid],cov_data[,colnames(cov_data)==sort_column])
-    }
-    print(cov_data)
-
+    cov_data[,colnames(cov_data)==elementid] <- reorder(cov_data[,colnames(cov_data)==elementid],cov_data[,colnames(cov_data)==sort_column])
     cov_data %>% split(select_(cov_data,elementid)[,1]) %>% map(covplot_row,elementid=elementid) -> cov_list
 
     #Plot ggplot objects

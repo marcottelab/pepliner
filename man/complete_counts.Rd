@@ -9,11 +9,11 @@ complete_counts(raw_data, xaxis, yaxis)
 \arguments{
 \item{raw_data}{Data frame}
 
-\item{xaxis}{Name of the column with X-axis values}
+\item{xaxis}{Name of the column with X-axis values.}
 
-\item{yaxis}{Name of the column with Y-axis values}
+\item{yaxis}{Name of the column with Y-axis values.}
 
-\item{outname}{If export = TRUE, output the resulting .}
+\item{outname}{If export = TRUE, output the resulting data frame named after this argument.}
 }
 \value{
 Data frame with added rows

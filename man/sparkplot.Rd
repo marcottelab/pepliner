@@ -2,23 +2,23 @@
 % Please edit documentation in R/sparkplot.R
 \name{sparkplot}
 \alias{sparkplot}
-\title{Make a line plot for each element of a group}
+\title{Make a line plot for each element of a group.}
 \usage{
-sparkplot(input_data, groupid = "", group_name = "", elementid, xaxis,
-  yaxis, condit = "", sort_column = "")
+sparkplot(input_data, elementid, xaxis, yaxis, groupid = "",
+  group_name = "", condit = "", sort_column = "")
 }
 \arguments{
 \item{input_data}{Data frame to which the coverage columns will be appended.}
-
-\item{groupid}{Data frame column (factor) corresponding to the names of the groups of elements in the data.}
-
-\item{group_name}{(Optional) If specified, make plots from only those rows whose ID matched this argument.}
 
 \item{elementid}{Data frame column (factor) corresponding to the elements for each of which a row of the final plot will be produced.}
 
 \item{xaxis}{X-axis values for each sub-plot. Must match across elements.}
 
 \item{yaxis}{Y-axis values for each sub-plot. The final plot normalizes these values for each row.}
+
+\item{groupid}{Data frame column (factor) corresponding to the names of the groups of elements in the data.}
+
+\item{group_name}{(Optional) If specified, make plots from only those rows whose ID matched this argument.}
 
 \item{condit}{(Optional) Name of the condition column from the data frame. Data points corresponding to different values of condit will be plotted with a different color/linetype.}
 
@@ -28,7 +28,7 @@ sparkplot(input_data, groupid = "", group_name = "", elementid, xaxis,
 ggplot item to be plotted using cowplot::ggdraw().
 }
 \description{
-Make a line plot for each element of a group
+Make a line plot for each element of a group.
 }
 \examples{
 'ms_data.csv' \%>\% complete_counts() \%>\% sparkplot(groupid='ID',elementid='Peptide',xaxis='FractionID',yaxis='PeptideCount')
