@@ -23,10 +23,10 @@ complete_counts <- function(raw_data,xaxis,yaxis){
     post_data[is.na(post_data)] <- 0
     post_data<-unique(post_data)
 
-
-    if("Length"%in%colnames(post_data) ){             #Don't want proteins that are too long :(
-        post_data <- post_data %>% filter(Length < 1500)
-    }
+    #Remove, or give warning message
+    #if("Length"%in%colnames(post_data) ){             #Don't want proteins that are too long :(
+    #    post_data <- post_data %>% filter(Length < 1500)
+    #}
 
     return(post_data)
 }

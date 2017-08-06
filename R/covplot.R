@@ -69,7 +69,7 @@ covplot <- function(input_data,group_name='',sort_column='Start',groupid='',elem
     }
 
     cov_data <- data_group
-
+    print(head(cov_data))
     #Feed peptides into cov_row function
     cov_data = droplevels(cov_data)
 

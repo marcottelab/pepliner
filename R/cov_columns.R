@@ -21,17 +21,15 @@
 # suppressPackageStartupMessages(library(seqinr))
 
 
-cov_columns <- function(data_table,proteome,outname=paste0(deparse(substitute(data_table)),'_cov.csv'),groupid,elementid,export=FALSE){
+cov_columns <- function(data_table,proteome,groupid,elementid,export=FALSE, outname=paste0(deparse(substitute(data_table)),'_cov.csv')){
     fasta <- read.fasta(proteome)
-
     list_seq <- lapply(fasta,function(lst){lst[1:length(lst)] %>% paste(collapse='') %>% toupper()})
+
     list_seq <- data.frame(names(list_seq) %>% as_vector(),unname(list_seq) %>% as_vector())
     names(list_seq) <- c(groupid,'Sequence')
+    pep <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
 
-    tmp <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
-
-
-    pep <- tmp %>% mutate_(.dots = setNames(list(interp(~gsub(pattern='I',replacement='J',x=var),var=as_name(elementid))),elementid))
+    pep <- pep %>% mutate_(.dots = setNames(list(interp(~gsub(pattern='I',replacement='J',x=var),var=as_name(elementid))),elementid))
     pep <- pep %>% mutate_(.dots = setNames(list(interp(~gsub(pattern='L',replacement='J',x=var),var=as_name(elementid))),elementid))
     pep <- pep %>%  mutate_(.dots = setNames(list(interp(~gsub(pattern='J',replacement='(I|L)',x=var),var=as_name(elementid))),elementid))
     peptide_column <- pep[,colnames(pep)==elementid]
@@ -64,7 +62,7 @@ cov_columns <- function(data_table,proteome,outname=paste0(deparse(substitute(da
 
     End <- as.integer(End)
 
-
+    #what is this column for?
     Appearance <- rep('',length(peptide_column))
     for(i in 1:length(peptide_column)){
         Appearance[i] <- length(str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1])
