@@ -4,19 +4,19 @@
 \alias{covplot}
 \title{Make a coverage plot for all the peptides retrieved for a single protein.}
 \usage{
-covplot(input_data, group_name = "", sort_column = "Start", groupid = "",
-  elementid)
+covplot(input_data, elementid, groupid = "", group_name = "",
+  sort_column = "Start")
 }
 \arguments{
 \item{input_data}{Data frame to which the coverage columns will be appended.}
 
-\item{group_name}{(Optional) If specified, make plots from only those rows whose ID matched this argument.}
-
-\item{sort_column}{(Optional) If specified, rows in the final plot will be sorted according to this (numeric) column.}
+\item{elementid}{Data frame column (factor) corresponding to the elements for each of which a row of the final plot will be produced.}
 
 \item{groupid}{Data frame column (factor) corresponding to the names of the groups of elements in the data.}
 
-\item{elementid}{Data frame column (factor) corresponding to the elements for each of which a row of the final plot will be produced.}
+\item{group_name}{(Optional) If specified, make plots from only those rows whose ID matched this argument.}
+
+\item{sort_column}{(Optional) If specified, rows in the final plot will be sorted according to this (numeric) column.}
 }
 \value{
 ggplot item to be plotted using cowplot::ggdraw().

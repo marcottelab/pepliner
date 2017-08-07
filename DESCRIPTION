@@ -4,7 +4,17 @@ Version: 0.1
 Authors@R: person("Nicolas", "Gort Freitas", email = "nicolas@minerva.kgi.edu", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends: R (>= 3.4.1)
-License: What license is it under?
+License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
+Suggests: testthat
+Imports:
+	cowplot,
+	dplyr,
+	ggplot2,
+	lazyeval,
+	purrr,
+	seqinr,
+	stringr,
+	tidyr,
