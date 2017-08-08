@@ -61,17 +61,6 @@ covplot_row <- function(row,elementid){
 
 covplot <- function(input_data,group_name='',sort_column='Start',groupid='',elementid){
 
-
-    uniqueness_test <- input_data %>% group_by(element_id, groupid) %>%
-                       summarize(groupsize = n()) %>%
-                       filter(groupsize > 1)
-
-    if(nrow(uniqueness_test) > 0){
-    print(paste("Warning, ", nrow(uniqueness_test), "elements are not unique to groups\nEx. peptides match multiple proteins", sep=""))
-    }
-
-
-
     pre_data <- input_data[colnames(input_data)%in%c(groupid,elementid,'Start','End','Length')]
 
     if(groupid!=''&group_name!=''){

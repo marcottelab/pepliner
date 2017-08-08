@@ -23,15 +23,10 @@
 
 
 cov_columns <- function(data_table,proteome,groupid,elementid,export=FALSE, outname=paste0(deparse(substitute(data_table)),'_cov.csv')){
-    fasta <- read.fasta(proteome, as.string = TRUE)
+    fasta <- read.fasta(proteome)
+    list_seq <- lapply(fasta,function(lst){lst[1:length(lst)] %>% paste(collapse='') %>% toupper()})
 
-
-    print(head(fasta))
-    #Why is this in list structure vs. dataframe structure?
-    #list_seq <- lapply(fasta,function(lst){lst[1:length(lst)] %>% paste(collapse='') %>% toupper()})
-    list_seq <- lapply(fasta,function(lst){lst %>% toupper()})
     list_seq <- data.frame(names(list_seq) %>% as_vector(),unname(list_seq) %>% as_vector())
-    print(list_seq)
     names(list_seq) <- c(groupid,'Sequence')
     pep <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
 
