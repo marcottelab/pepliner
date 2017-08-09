@@ -93,7 +93,7 @@ sparkplot_row <- function(z,elementid,xaxis,yaxis,condit){
 #' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
 #' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide') %>%
 #' complete_counts('FractionID','PeptideCount') %>%
-#' sparkplot(Peptide','FractionID','PeptideCount','ID',
+#' sparkplot('Peptide','FractionID','PeptideCount','ID',
 #'     group_name='sp|P55036|PSMD4_HUMAN',sort_column='Start') %>%
 #' cowplot::ggdraw()
 

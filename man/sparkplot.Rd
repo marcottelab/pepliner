@@ -30,3 +30,13 @@ ggplot item to be plotted using cowplot::ggdraw().
 \description{
 Make a line plot for each element of a group.
 }
+\examples{
+library(purrr)
+test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
+sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
+cov_columns(test_data,sequences,groupid='ID',elementid='Peptide') \%>\%
+complete_counts('FractionID','PeptideCount') \%>\%
+sparkplot('Peptide','FractionID','PeptideCount','ID',
+    group_name='sp|P55036|PSMD4_HUMAN',sort_column='Start') \%>\%
+cowplot::ggdraw()
+}
