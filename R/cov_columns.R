@@ -15,7 +15,9 @@
 #' @return Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
 #' @export
 #' @examples
-#' cov_columns(test_data,proteome='sequences.fasta',groupid='ID',elementid='Peptide')
+#' test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
+#' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
+#' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide')
 
 cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(deparse(substitute(data_table)),'_cov.csv'),export=FALSE){
     fasta <- seqinr::read.fasta(proteome)

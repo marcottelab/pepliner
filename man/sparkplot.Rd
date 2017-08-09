@@ -30,6 +30,3 @@ ggplot item to be plotted using cowplot::ggdraw().
 \description{
 Make a line plot for each element of a group.
 }
-\examples{
-'ms_data.csv' \%>\% complete_counts() \%>\% sparkplot(groupid='ID',elementid='Peptide',xaxis='FractionID',yaxis='PeptideCount')
-}

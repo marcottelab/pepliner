@@ -20,5 +20,6 @@ Data frame with added rows
 Fill missing x-axis values with zero.
 }
 \examples{
+test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
 complete_counts(test_data,xaxis='FractionID',yaxis='PeptideCount')
 }

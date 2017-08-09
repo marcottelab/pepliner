@@ -88,7 +88,14 @@ sparkplot_row <- function(z,elementid,xaxis,yaxis,condit){
 ## @seealso \code{\link{nchar}} which this function wraps
 #' @export
 #' @examples
-#' 'ms_data.csv' %>% complete_counts() %>% sparkplot(groupid='ID',elementid='Peptide',xaxis='FractionID',yaxis='PeptideCount')
+#' library(purrr)
+#' test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
+#' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
+#' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide') %>%
+#' complete_counts('FractionID','PeptideCount') %>%
+#' sparkplot(Peptide','FractionID','PeptideCount','ID',
+#'     group_name='sp|P55036|PSMD4_HUMAN',sort_column='Start') %>%
+#' cowplot::ggdraw()
 
 sparkplot <- function(input_data,elementid,xaxis,yaxis,groupid='',group_name='',condit='',sort_column=''){
     #pre-filter columns that pertain to the plot

@@ -11,6 +11,7 @@
 #' @return Data frame with added rows
 #' @export
 #' @examples
+#' test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
 #' complete_counts(test_data,xaxis='FractionID',yaxis='PeptideCount')
 
 # suppressPackageStartupMessages(library(tidyverse))

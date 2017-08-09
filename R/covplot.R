@@ -69,7 +69,12 @@ covplot_row <- function(row,elementid){
 ## @seealso \code{\link{nchar}} which this function wraps
 #' @export
 #' @examples
-#' 'ms_data.csv' %>% complete_counts() %>% covplot(groupid='ID',elementid='Peptide',sort_column='Start') %>% ggdraw
+#' library(purrr)
+#' test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
+#' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
+#' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide') %>%
+#' covplot('Peptide','ID','sp|P55036|PSMD4_HUMAN') %>%
+#' cowplot::ggdraw()
 
 #default sort column is Start
 covplot <- function(input_data,elementid,groupid='',group_name='',sort_column='Start'){
