@@ -58,7 +58,7 @@ covplot_row <- function(row,elementid){
 #' @param group_name (Optional) If specified, make plots from only those rows whose ID matched this argument.
 #' @param elementid Data frame column (factor) corresponding to the elements for each of which a row of the final plot will be produced.
 #' @param sort_column (Optional) If specified, rows in the final plot will be sorted according to this (numeric) column.
-#' @importFrom dplyr select_ group_by_ summarize n
+#' @importFrom dplyr select_ group_by_ summarize n filter
 ## @import tidyr
 #' @importFrom purrr map %>%
 #' @importFrom ggplot2 ggplot aes aes_ theme geom_rect geom_vline geom_text geom_blank position_nudge element_blank ggplotGrob element_text
@@ -76,10 +76,10 @@ covplot <- function(input_data,elementid,groupid='',group_name='',sort_column='S
 
     #test if there are elements that appear under different groups.
     uniqueness_test <- input_data %>% dplyr::group_by_(elementid, groupid) %>%
-    dplyr::summarize(groupsize = dplyr::n()) %>%
+    dplyr::summarize(groupsize = n()) %>%
     dplyr::filter(groupsize > 1)
     if(nrow(uniqueness_test) > 0){
-        cat(paste0("Warning, ", nrow(uniqueness_test), " elements are not unique to groups.\nEx. peptides match multiple proteins."))
+        cat(paste0("Warning, ", nrow(uniqueness_test), " elements are not unique to groups.\nEx. peptides match multiple proteins.\n"))
     }
 
     #pre-filter columns that pertain to the plot
