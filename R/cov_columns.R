@@ -20,21 +20,15 @@
 
 cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(deparse(substitute(data_table)),'_cov.csv'),export=FALSE){
     fasta <- seqinr::read.fasta(proteome)
-
     #create a list of strings with all the sequences, capitalize them
     list_seq <- lapply(fasta,function(lst){lst[1:length(lst)] %>% paste(collapse='') %>% toupper()})
     #convert the list into a data frame
     list_seq <- data.frame(names(list_seq) %>% purrr::as_vector(),unname(list_seq) %>% purrr::as_vector())
     names(list_seq) <- c(groupid,'Sequence')
-    #add the sequence column to the original data set. NOTE: This column is discarded later. If I omit this step the coverage columns get added wrong. Trying to fix this.
+    #add the full protein sequence column to the original data set.
     pep <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
 
     #replace Is, Js and Ls with (I|J|L) to use for regex lookup, store the data set as "pep"
-    #pep <- pep %>% dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='I',replacement='J',x=var),var=as_name(elementid))),elementid))
-    #pep <- pep %>% dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='L',replacement='J',x=var),var=as_name(elementid))),elementid))
-    #pep <- pep %>%  dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='J',replacement='(I|J|L)',x=var),var=as_name(elementid))),elementid))
-
-    #This code replaces the above block
     pep[,elementid] <- gsub("[I|J|L]", "(I|J|L)", pep[,elementid])
 
     #elementid_quo <- dplyr::enquo(elementid)
@@ -49,7 +43,7 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     sequence_column <- pep[,colnames(pep)=='Sequence'] %>% as.character()
     #create Length vector, to be appended to the original data frame afterwards
     Length <- nchar(sequence_column)
-
+    pep$Length <- Length
 
     getStartorEnd <- function(peptide_column, sequence_column, s=1){
         #Find start end positions of a substring within a string
@@ -57,10 +51,8 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
         #s=1 for start position, s=2 for end position.
         comparison <- stringr::str_locate_all(sequence_column[1],peptide_column[1])[[1]][,s]
 
-        Pos <- comparison
-
         #if(length(comparison) == 0){
-        #    Pos <- NA
+        #
             #if the peptide sequence appears once in the full protein sequence, fill row$Pos with the number
         #}else if(length(comparison) == 1){
         #    Pos <- comparison
@@ -72,57 +64,18 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     return(comparison)
     }
 
-    Start <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 1)
-    End <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 2)
-    print(head(data.frame(Start)))
-    print(head(data.frame(End)))
+    pep$Start <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 1)
+    pep$End <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 2)
 
-
-    #create empty vector "Start"
-    #Start <- rep('',length(peptide_column))
-    #for(i in 1:length(peptide_column)){
-    #    #if the peptide sequence is not present in the full protein sequence, fill row$Start with "Not found".
-    #   if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]) == 0){
-    #        Start[i] <- 'Not found'
-    #    #if the peptide sequence appears once in the full protein sequence, fill row$Start with the number
-    #    }else if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]) == 1){
-    #        Start[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]
-    #    #if it appears more than once, it should return a list with the starting positions. Still pending.
-    #    }else{
-    #        Start[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1] %>% list()
-    #    }
-    #}
-    ##This would crash if anything but numbers are present in the vector Start. Still pending.
-    #Start <- as.integer(Start)
-
-    #idem Start
-    #End <- rep('',length(peptide_column))
-    #for(i in 1:length(peptide_column)){
-    #    if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]) == 0){
-    #        End[i] <- 'Not found'
-    #    }else if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]) == 1){
-    #        End[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]
-    #    }else{
-    #        End[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2] %>% list()
-    #    }}
-    #
-    #End <- as.integer(End)
-
+    pep <- pep %>% filter(!is.na(Start)) %>% filter(!is.na(End))
     #this, ideally, would differentiate between peptides found twice within the protein structure. Still pending.
-    Appearance <- rep('',length(peptide_column))
-    for(i in 1:length(peptide_column)){
-        Appearance[i] <- length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1])
-    }
+    pep$Appearance <- ''
+    #for(i in 1:length(peptide_column)){
+    #    Appearance[i] <- length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1])
+    #}
 
-    Appearance <- as.integer(Appearance)
-
-    #create a data frame with the coverage columns created above
-    cov_cols <- data.frame(Length,Start,End,Appearance)
-
-    #bind the data frame above with the union of the original data and the sequence column. NOTE: Joining the original data directly does not work as intended.
-    out_table <- cbind(pep,cov_cols)
     #exclude Sequence column.
-    out_table <- out_table[colnames(out_table)!='Sequence'] #todo: optimize step
+    pep$Sequence <- NULL
 
-    print(out_table)
+    print(pep)
 }
