@@ -1,17 +1,18 @@
-#' Append columns related to the coverage of a protein.
+#' Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).
 #'
-#' @param data_table Data frame to which the coverage columns will be appended.
-#' @param proteome FASTA file from which the sequences will be extracted.
+#' @param data_table Data frame to which the coverage columns will be appended. Must contain a column of peptide sequences and a column of the parental protein of each peptide.
+#' @param proteome FASTA file from which the sequences will be extracted. IDs must match protein IDs in the input data_table.
 #' @param outname If export = TRUE, output the resulting data frame as a .csv file named after this argument.
-#' @param groupid Data frame column (factor) corresponding to the protein name to be matched with the IDs extracted from the FASTA file.
-#' @param elementid Data frame column (factor) corresponding to the peptide sequence to be searched against the sequences extracted from the FASTA file.
+#' @param groupid Colname of column (factor, not numeric) containing protein IDs. IDs must match proteome identifiers.
+#' @param elementid Colname of column containing peptide sequences. Will be searched against the sequences extracted from the FASTA file.
 #' @param export If false (default), return a data frame. If true, write a .csv file named after the input file + '_cov.csv'.
-#' @importFrom dplyr mutate mutate_
-#' @importFrom stringr str_locate_all
+#' @importFrom dplyr mutate mutate_ quo_name rowwise enquo
+#' @importFrom stringr str_locate_all str_replace
 #' @importFrom purrr as_vector map %>%
 #' @importFrom lazyeval interp
 #' @importFrom seqinr read.fasta
 #' @importFrom stats setNames
+#' @importFrom rlang sym
 #' @return Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
 #' @export
 #' @examples
@@ -28,12 +29,21 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     list_seq <- data.frame(names(list_seq) %>% purrr::as_vector(),unname(list_seq) %>% purrr::as_vector())
     names(list_seq) <- c(groupid,'Sequence')
     #add the sequence column to the original data set. NOTE: This column is discarded later. If I omit this step the coverage columns get added wrong. Trying to fix this.
-    tmp <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
+    pep <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
 
     #replace Is, Js and Ls with (I|J|L) to use for regex lookup, store the data set as "pep"
-    pep <- tmp %>% dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='I',replacement='J',x=var),var=as_name(elementid))),elementid))
-    pep <- pep %>% dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='L',replacement='J',x=var),var=as_name(elementid))),elementid))
-    pep <- pep %>%  dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='J',replacement='(I|J|L)',x=var),var=as_name(elementid))),elementid))
+    #pep <- pep %>% dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='I',replacement='J',x=var),var=as_name(elementid))),elementid))
+    #pep <- pep %>% dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='L',replacement='J',x=var),var=as_name(elementid))),elementid))
+    #pep <- pep %>%  dplyr::mutate_(.dots = stats::setNames(list(lazyeval::interp(~gsub(pattern='J',replacement='(I|J|L)',x=var),var=as_name(elementid))),elementid))
+
+    #This code replaces the above block
+    pep[,elementid] <- gsub("[I|J|L]", "(I|J|L)", pep[,elementid])
+
+
+    #elementid_quo <- dplyr::enquo(elementid)
+    #message(elementid_quo)
+    #print(head(pep))
+
 
     #extract the columns with the peptides and the sequences respectively
     peptide_column <- pep[,colnames(pep)==elementid]
@@ -83,7 +93,7 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     cov_cols <- data.frame(Length,Start,End,Appearance)
 
     #bind the data frame above with the union of the original data and the sequence column. NOTE: Joining the original data directly does not work as intended.
-    out_table <- cbind(tmp,cov_cols)
+    out_table <- cbind(pep,cov_cols)
     #exclude Sequence column.
     out_table <- out_table[colnames(out_table)!='Sequence'] #todo: optimize step
 
