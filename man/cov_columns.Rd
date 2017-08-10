@@ -2,30 +2,28 @@
 % Please edit documentation in R/cov_columns.R
 \name{cov_columns}
 \alias{cov_columns}
-\title{Append columns related to the coverage of a protein.}
+\title{Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).}
 \usage{
 cov_columns(data_table, proteome, groupid, elementid,
   outname = paste0(deparse(substitute(data_table)), "_cov.csv"),
   export = FALSE)
 }
 \arguments{
-\item{data_table}{Data frame to which the coverage columns will be appended.}
+\item{data_table}{Data frame to which the coverage columns will be appended. Must contain a column of peptide sequences and a column of the parental protein of each peptide.}
 
-\item{proteome}{FASTA file from which the sequences will be extracted.}
+\item{proteome}{FASTA file from which the sequences will be extracted. IDs must match protein IDs in the input data_table.}
 
-\item{groupid}{Data frame column (factor) corresponding to the protein name to be matched with the IDs extracted from the FASTA file.}
+\item{groupid}{Colname of column (factor, not numeric) containing protein IDs. IDs must match proteome identifiers.}
 
-\item{elementid}{Data frame column (factor) corresponding to the peptide sequence to be searched against the sequences extracted from the FASTA file.}
+\item{elementid}{Colname of column containing peptide sequences. Will be searched against the sequences extracted from the FASTA file.}
 
 \item{outname}{If export = TRUE, output the resulting data frame as a .csv file named after this argument.}
-
-\item{export}{If false (default), return a data frame. If true, write a .csv file named after the input file + '_cov.csv'.}
 }
 \value{
 Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
 }
 \description{
-Append columns related to the coverage of a protein.
+Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).
 }
 \examples{
 test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))

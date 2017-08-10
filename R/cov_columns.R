@@ -5,10 +5,9 @@
 #' @param outname If export = TRUE, output the resulting data frame as a .csv file named after this argument.
 #' @param groupid Colname of column (factor, not numeric) containing protein IDs. IDs must match proteome identifiers.
 #' @param elementid Colname of column containing peptide sequences. Will be searched against the sequences extracted from the FASTA file.
-#' @importFrom dplyr mutate mutate_
+#' @importFrom dplyr mutate
 #' @importFrom stringr str_locate_all
 #' @importFrom purrr as_vector map %>%
-#' @importFrom lazyeval interp
 #' @importFrom seqinr read.fasta
 #' @importFrom stats setNames
 #' @return Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
