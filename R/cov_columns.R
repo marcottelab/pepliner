@@ -17,7 +17,7 @@
 #' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
 #' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide')
 
-cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(deparse(substitute(data_table)),'_cov.csv'),export=FALSE){
+cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(deparse(substitute(data_table)),'_cov.csv')){
     fasta <- seqinr::read.fasta(proteome)
     #create a list of strings with all the sequences, capitalize them
     list_seq <- lapply(fasta,function(lst){lst[1:length(lst)] %>% paste(collapse='') %>% toupper()})
@@ -76,5 +76,5 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     #exclude Sequence column.
     pep$Sequence <- NULL
 
-    print(pep)
+    return(pep)
 }

@@ -5,8 +5,7 @@
 \title{Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).}
 \usage{
 cov_columns(data_table, proteome, groupid, elementid,
-  outname = paste0(deparse(substitute(data_table)), "_cov.csv"),
-  export = FALSE)
+  outname = paste0(deparse(substitute(data_table)), "_cov.csv"))
 }
 \arguments{
 \item{data_table}{Data frame to which the coverage columns will be appended. Must contain a column of peptide sequences and a column of the parental protein of each peptide.}
