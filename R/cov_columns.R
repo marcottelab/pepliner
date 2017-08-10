@@ -5,14 +5,12 @@
 #' @param outname If export = TRUE, output the resulting data frame as a .csv file named after this argument.
 #' @param groupid Colname of column (factor, not numeric) containing protein IDs. IDs must match proteome identifiers.
 #' @param elementid Colname of column containing peptide sequences. Will be searched against the sequences extracted from the FASTA file.
-#' @param export If false (default), return a data frame. If true, write a .csv file named after the input file + '_cov.csv'.
-#' @importFrom dplyr mutate mutate_ quo_name rowwise enquo
-#' @importFrom stringr str_locate_all str_replace
+#' @importFrom dplyr mutate mutate_
+#' @importFrom stringr str_locate_all
 #' @importFrom purrr as_vector map %>%
 #' @importFrom lazyeval interp
 #' @importFrom seqinr read.fasta
 #' @importFrom stats setNames
-#' @importFrom rlang sym
 #' @return Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
 #' @export
 #' @examples
@@ -39,10 +37,11 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     #This code replaces the above block
     pep[,elementid] <- gsub("[I|J|L]", "(I|J|L)", pep[,elementid])
 
-
     #elementid_quo <- dplyr::enquo(elementid)
     #message(elementid_quo)
     #print(head(pep))
+
+    #pep <- pep %>% dplyr::rowwise() %>% summarize(x = stringr::str_locate_all("Peptide", "Sequence"))
 
 
     #extract the columns with the peptides and the sequences respectively
@@ -51,35 +50,63 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     #create Length vector, to be appended to the original data frame afterwards
     Length <- nchar(sequence_column)
 
-    #crete empty vector "Start"
-    Start <- rep('',length(peptide_column))
-    for(i in 1:length(peptide_column)){
-        #if the peptide sequence is not present in the full protein sequence, fill row$Start with "Not found".
-        if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]) == 0){
-            Start[i] <- 'Not found'
-        #if the peptide sequence appears once in the full protein sequence, fill row$Start with the number
-        }else if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]) == 1){
-            Start[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]
-        #if it appears more than once, it should return a list with the starting positions. Still pending.
-        }else{
-            Start[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1] %>% list()
-        }
+
+    getStartorEnd <- function(peptide_column, sequence_column, s=1){
+        #Find start end positions of a substring within a string
+
+        #s=1 for start position, s=2 for end position.
+        comparison <- stringr::str_locate_all(sequence_column[1],peptide_column[1])[[1]][,s]
+
+        Pos <- comparison
+
+        #if(length(comparison) == 0){
+        #    Pos <- NA
+            #if the peptide sequence appears once in the full protein sequence, fill row$Pos with the number
+        #}else if(length(comparison) == 1){
+        #    Pos <- comparison
+        #    #if it appears more than once, it should return a list with the starting positions. Still pending.
+        #}else{
+        #    Pos <- comparison %>% list()
+        #}
+    #to do: flatten the comparison to multiple rows
+    return(comparison)
     }
-    #This would crash if anything but numbers are present in the vector Start. Still pending.
-    Start <- as.integer(Start)
+
+    Start <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 1)
+    End <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 2)
+    print(head(data.frame(Start)))
+    print(head(data.frame(End)))
+
+
+    #create empty vector "Start"
+    #Start <- rep('',length(peptide_column))
+    #for(i in 1:length(peptide_column)){
+    #    #if the peptide sequence is not present in the full protein sequence, fill row$Start with "Not found".
+    #   if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]) == 0){
+    #        Start[i] <- 'Not found'
+    #    #if the peptide sequence appears once in the full protein sequence, fill row$Start with the number
+    #    }else if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]) == 1){
+    #        Start[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1]
+    #    #if it appears more than once, it should return a list with the starting positions. Still pending.
+    #    }else{
+    #        Start[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1] %>% list()
+    #    }
+    #}
+    ##This would crash if anything but numbers are present in the vector Start. Still pending.
+    #Start <- as.integer(Start)
 
     #idem Start
-    End <- rep('',length(peptide_column))
-    for(i in 1:length(peptide_column)){
-        if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]) == 0){
-            End[i] <- 'Not found'
-        }else if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]) == 1){
-            End[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]
-        }else{
-            End[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2] %>% list()
-        }}
-
-    End <- as.integer(End)
+    #End <- rep('',length(peptide_column))
+    #for(i in 1:length(peptide_column)){
+    #    if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]) == 0){
+    #        End[i] <- 'Not found'
+    #    }else if(length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]) == 1){
+    #        End[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2]
+    #    }else{
+    #        End[i] <- stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,2] %>% list()
+    #    }}
+    #
+    #End <- as.integer(End)
 
     #this, ideally, would differentiate between peptides found twice within the protein structure. Still pending.
     Appearance <- rep('',length(peptide_column))
@@ -97,11 +124,5 @@ cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(dep
     #exclude Sequence column.
     out_table <- out_table[colnames(out_table)!='Sequence'] #todo: optimize step
 
-    #export?
-    if(export==FALSE){
-        return(out_table)
-    }else{
-        utils::write.csv(out_table,outname)
-        'Your file has been saved as' %>% paste(outname) %>% cat
-    }
+    print(out_table)
 }
