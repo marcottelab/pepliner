@@ -2,7 +2,6 @@
 #'
 #' @param data_table Data frame to which the coverage columns will be appended. Must contain a column of peptide sequences and a column of the parental protein of each peptide.
 #' @param proteome FASTA file from which the sequences will be extracted. IDs must match protein IDs in the input data_table.
-#' @param outname If export = TRUE, output the resulting data frame as a .csv file named after this argument.
 #' @param groupid Colname of column (factor, not numeric) containing protein IDs. IDs must match proteome identifiers.
 #' @param elementid Colname of column containing peptide sequences. Will be searched against the sequences extracted from the FASTA file.
 #' @importFrom dplyr mutate
@@ -17,7 +16,7 @@
 #' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
 #' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide')
 
-cov_columns <- function(data_table,proteome,groupid,elementid,outname=paste0(deparse(substitute(data_table)),'_cov.csv')){
+cov_columns <- function(data_table,proteome,groupid,elementid){
     fasta <- seqinr::read.fasta(proteome)
     #create a list of strings with all the sequences, capitalize them
     list_seq <- lapply(fasta,function(lst){lst[1:length(lst)] %>% paste(collapse='') %>% toupper()})
