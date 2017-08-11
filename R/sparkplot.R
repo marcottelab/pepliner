@@ -89,8 +89,8 @@ sparkplot_row <- function(z,elementid,xaxis,yaxis,condit){
 #' @export
 #' @examples
 #' library(purrr)
-#' test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
-#' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
+#' test_data <- read.csv(system.file('extdata/msdata.csv',package='pepliner'))
+#' sequences <- system.file('extdata/proteome.fasta',package='pepliner')
 #' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide') %>%
 #' complete_counts('FractionID','PeptideCount') %>%
 #' sparkplot('Peptide','FractionID','PeptideCount','ID',

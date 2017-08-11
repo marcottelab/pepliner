@@ -70,8 +70,8 @@ covplot_row <- function(row,elementid){
 #' @export
 #' @examples
 #' library(purrr)
-#' test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
-#' sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
+#' test_data <- read.csv(system.file('extdata/msdata.csv',package='pepliner'))
+#' sequences <- system.file('extdata/proteome.fasta',package='pepliner')
 #' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide') %>%
 #' covplot('Peptide','ID','sp|P55036|PSMD4_HUMAN') %>%
 #' cowplot::ggdraw()
@@ -116,7 +116,7 @@ covplot <- function(input_data,elementid,groupid='',group_name='',sort_column='S
     start_end <- dplyr::select(cov_data,c('Start','End'))
     start_end<- dplyr::transmute(start_end,Interval=paste0((as.character(Start)),':',as.character(End)))
     interval_list <- purrr::map(start_end$Interval,.f=function(x){eval(parse(text=x))})
-    cov_rate <- Reduce(union,interval_list) %>% length()/max(test_cov$Length) %/% 100#plot(y=rep(1,360))
+    cov_rate <- Reduce(union,interval_list) %>% length()/max(cov_data$Length) %/% 100#plot(y=rep(1,360))
 
 
     xaxis_plot <- ggplot2::ggplot(data=cov_data, ggplot2::aes(x=max(cov_data$Length), y = 20)) +

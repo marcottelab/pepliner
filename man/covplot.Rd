@@ -26,8 +26,8 @@ Make a coverage plot for all the peptides retrieved for a single protein.
 }
 \examples{
 library(purrr)
-test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
-sequences <- paste0(system.file('extdata',package='pepliner'),'/proteome.fasta')
+test_data <- read.csv(system.file('extdata/msdata.csv',package='pepliner'))
+sequences <- system.file('extdata/proteome.fasta',package='pepliner')
 cov_columns(test_data,sequences,groupid='ID',elementid='Peptide') \%>\%
 covplot('Peptide','ID','sp|P55036|PSMD4_HUMAN') \%>\%
 cowplot::ggdraw()
