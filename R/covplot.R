@@ -58,10 +58,10 @@ covplot_row <- function(row,elementid){
 #' @param group_name (Optional) If specified, make plots from only those rows whose ID matched this argument.
 #' @param elementid Data frame column (factor) corresponding to the elements for each of which a row of the final plot will be produced.
 #' @param sort_column (Optional) If specified, rows in the final plot will be sorted according to this (numeric) column.
-#' @importFrom dplyr select_ group_by_ summarize n filter
+#' @importFrom dplyr select_ group_by_ summarize n filter transmute select
 ## @import tidyr
 #' @importFrom purrr map %>%
-#' @importFrom ggplot2 ggplot aes aes_ theme geom_rect geom_vline geom_text geom_blank position_nudge element_blank ggplotGrob element_text
+#' @importFrom ggplot2 ggplot aes aes_ theme geom_rect geom_vline geom_text geom_blank position_nudge element_blank ggplotGrob element_text xlab xlim
 #' @importFrom cowplot gtable_remove_grobs gtable_squash_rows gtable_squash_cols plot_grid ggdraw theme_cowplot
 #' @importFrom utils head
 ## @import lazyeval
@@ -110,9 +110,36 @@ covplot <- function(input_data,elementid,groupid='',group_name='',sort_column='S
     #reorder elementid column by sort_column. Default: Start.
     cov_data[,colnames(cov_data)==elementid] <- stats::reorder(cov_data[,colnames(cov_data)==elementid],cov_data[,colnames(cov_data)==sort_column])
     #Feed peptides into covplot_row function
+
     cov_data %>% split(select_(cov_data,elementid)[,1]) %>% purrr::map(covplot_row,elementid=elementid) -> cov_list
+
+    start_end <- dplyr::select(cov_data,c('Start','End'))
+    start_end<- dplyr::transmute(start_end,Interval=paste0((as.character(Start)),':',as.character(End)))
+    interval_list <- purrr::map(start_end$Interval,.f=function(x){eval(parse(text=x))})
+    cov_rate <- Reduce(union,interval_list) %>% length()/max(test_cov$Length) %/% 100#plot(y=rep(1,360))
+
+
+    xaxis_plot <- ggplot2::ggplot(data=cov_data, ggplot2::aes(x=max(cov_data$Length), y = 20)) +
+        cowplot::theme_cowplot() +
+        ggplot2::geom_blank() +
+        ggplot2::xlim(-2,max(cov_data[cov_data[colnames(cov_data)==groupid]==group_name,]$Length)) +
+        ggplot2::xlab(paste0('Coverage: ',cov_rate,'%')) +
+        # #get rid of all axes, titles, ticks and labels
+        ggplot2::theme(
+            axis.text.y=ggplot2::element_blank(),
+            axis.title.y=ggplot2::element_blank(),
+            axis.ticks.y=ggplot2::element_blank(),
+            axis.line.y=ggplot2::element_blank())
+
+    xaxis_plot <- ggplot2::ggplotGrob(xaxis_plot)
+    xaxis_plot <- cowplot::gtable_remove_grobs(xaxis_plot, c('title', 'axis-l','spacer','axis-r','axis-t','panel','xlab-t','subtitle','caption','ylab-l','ylab-r'))
+    #xaxis_plot <- cowplot::gtable_squash_rows(xaxis_plot, c(1, 2, 3, 4, 5, 7, 8, 9, 10))
+    xaxis_plot <- cowplot::gtable_squash_cols(xaxis_plot, c(1, 2, 3, 5, 6, 7, 8, 9, 10))
+    xaxis_plot <- cowplot::gtable_squash_cols(xaxis_plot, c(1, 2, 3, 5, 6, 7,8,9,10))
 
     #Aggregate ggplot objects
     clusterplot <- cowplot::plot_grid(plotlist = cov_list, ncol=1, align = "v")
+    cowplot::plot_grid(clusterplot,xaxis_plot,align='h',nrow=2,rel_heights = c(25,1))
+
 
 }

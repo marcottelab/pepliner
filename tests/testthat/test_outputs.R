@@ -5,29 +5,30 @@ library(testthat)
 test_data <- read.csv(paste0(system.file('extdata',package='pepliner'),'/msdata.csv'))
 cat('Successful read\n')
 test_cov <- test_data %>% cov_columns(paste0(system.file('extdata',package='pepliner'),'/proteome.fasta'),'ID','Peptide')
-cat('Successful column adding\n')
+cat('Column adding: no errors.\n')
 test_cc <- test_data %>% complete_counts('FractionID','PeptideCount')
-cat('Successful row adding\n')
+cat('Row adding: no errors.\n')
 test_cov_cc <- test_cov %>% complete_counts('FractionID','PeptideCount')
-cat('Successful piping\n')
+cat('Applying cov_columns and complete counts to the same data set: no errors.\n')
 test_sparkplot <- test_cov_cc %>% sparkplot('Peptide','FractionID','PeptideCount','ID','sp|P55036|PSMD4_HUMAN')
-cat('Succesful sparkplotting\n')
+cat('Sparkplotting: no errors.\n')
 test_sparkplot %>% cowplot::ggdraw()
 
-test_covplot <- test_cov_cc %>% covplot(elementid='Peptide',groupid='ID',group_name = 'sp|P55036|PSMD4_HUMAN')
-cat('Successful covplotting\n')
-test_covplot %>% cowplot::ggdraw()
+test_covplot <- test_cov_cc %>% covplot(elementid='Peptide',groupid='ID',group_name = 'sp|Q9P258|RCC2_HUMAN')
+cat('Covplotting: no errors.\n')
+test_covplot %>% cowplot::ggdraw() #+ cowplot::draw_label("DRAFT!", size = 20, alpha = .8, x=0.15, y=0.05)
 
-#
-#
-# column presence
-# nrow
+
+
 test_that('Test that the output of cov_columns is correct',{
     expect_true(nrow(test_data)==nrow(test_cov))
     expect_true('Start'%in%names(test_cov))
     expect_true('End'%in%names(test_cov))
     expect_true('Length'%in%names(test_cov))
     expect_true('Appearance'%in%names(test_cov))
+    expect_equal(class(test_cov$Start),"integer")
+    expect_equal(class(test_cov$End),"integer")
+    expect_equal(class(test_cov$Length),"integer")
 })
 cat('\nTest1: success\n')
 test_that('Test that the output of complete_counts is correct',{

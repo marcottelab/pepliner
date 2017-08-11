@@ -27,7 +27,7 @@ cov_columns <- function(data_table,proteome,groupid,elementid){
     pep <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
 
     #replace Is, Js and Ls with (I|J|L) to use for regex lookup, store the data set as "pep"
-    pep[,elementid] <- gsub("[I|J|L]", "(I|J|L)", pep[,elementid])
+    pep$pepregex <- gsub("[I|J|L]", "(I|J|L)", pep[,elementid])
 
     #elementid_quo <- dplyr::enquo(elementid)
     #message(elementid_quo)
@@ -37,7 +37,7 @@ cov_columns <- function(data_table,proteome,groupid,elementid){
 
 
     #extract the columns with the peptides and the sequences respectively
-    peptide_column <- pep[,colnames(pep)==elementid]
+    peptide_column <- pep$pepregex
     sequence_column <- pep[,colnames(pep)=='Sequence'] %>% as.character()
     #create Length vector, to be appended to the original data frame afterwards
     Length <- nchar(sequence_column)
@@ -62,8 +62,8 @@ cov_columns <- function(data_table,proteome,groupid,elementid){
     return(comparison)
     }
 
-    pep$Start <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 1)
-    pep$End <- mapply(getStartorEnd, pep[,elementid], pep$Sequence, 2)
+    pep$Start <- mapply(getStartorEnd, pep$pepregex, pep$Sequence, 1)
+    pep$End <- mapply(getStartorEnd, pep$pepregex, pep$Sequence, 2)
 
     pep <- pep %>% filter(!is.na(Start)) %>% filter(!is.na(End))
     #this, ideally, would differentiate between peptides found twice within the protein structure. Still pending.
@@ -74,6 +74,7 @@ cov_columns <- function(data_table,proteome,groupid,elementid){
 
     #exclude Sequence column.
     pep$Sequence <- NULL
+    pep$pepregex <- NULL
 
     return(pep)
 }
