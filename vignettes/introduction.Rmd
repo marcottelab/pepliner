@@ -1,0 +1,44 @@
+---
+title: "Introduction to pepliner"
+author: "Claire D. McWhite and Nicolas Gort Freitas"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_width: 8
+    fig_height: 6
+    warning: FALSE
+vignette: >
+  %\VignetteIndexEntry{Introduction to pepliner}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+#Introduction
+
+We had a need for tools to visualize the elution of peptides or proteins across fractions. 
+
+# Basic usage
+
+```{r}
+library(cowplot)
+library(ggridges)
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(pepliner)
+
+df <- data("msdata")
+df_comp <- complete_counts(raw_data=df, xaxis="FractionID", yaxis="PeptideCount")
+
+print(df_comp)
+
+df_sel <- df_comp %>% filter(ID =="sp|Q9P258|RCC2_HUMAN")
+
+df_norm <- df_sel %>% group_by(Peptide) %>% mutate(PeptideCount = normalit(PeptideCount))
+
+print(df_norm)
+
+df_cov <- cov_columns(data_table = df_norm, proteome="proteome.fasta", groupid = "ID", elementid = "Peptide")
+
+print(df_cov)
+```

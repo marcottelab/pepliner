@@ -1,19 +1,14 @@
 
-
-# suppressPackageStartupMessages(library(tidyverse))
-# suppressPackageStartupMessages(library(cowplot))
-# suppressPackageStartupMessages(library(lazyeval))
-# suppressPackageStartupMessages(library(seqinr))
-
-
-# options(tibble.width=Inf)
-
-# "normalize" values in a vector. Auxiliary function.
+#' Normalize values in a vector. Auxiliary function.
+#'
+#'  Each sparkline row should have values scaled from 0 to 1.
+#' @param m A vector
+#' @export
 normalit<-function(m){
     (m - min(m))/(max(m)-min(m))
 }
 
-#auxiliary function to plot each row of the line plots
+#auxiliary function to normalize and plot each row of the line plots
 sparkplot_row <- function(z,elementid,xaxis,yaxis,condit){
     #convert string variable into a name to be used for Standard Evaluation
     xaxis <- as.name(xaxis)
@@ -66,7 +61,6 @@ sparkplot_row <- function(z,elementid,xaxis,yaxis,condit){
 }
 
 
-#Tcell_2502_Cyto_sequence_annotated.csv
 
 #' Make a line plot for each element of a group.
 #'

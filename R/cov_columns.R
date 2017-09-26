@@ -10,12 +10,9 @@
 #' @importFrom seqinr read.fasta
 #' @importFrom stats setNames
 #' @return Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
-#' @export
 #' @examples
-#' test_data <- read.csv(system.file('extdata/msdata.csv',package='pepliner'))
-#' sequences <- system.file('extdata/proteome.fasta',package='pepliner')
 #' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide')
-
+#' @export
 cov_columns <- function(data_table,proteome,groupid,elementid){
     fasta <- seqinr::read.fasta(proteome)
     #create a list of strings with all the sequences, capitalize them
@@ -28,13 +25,6 @@ cov_columns <- function(data_table,proteome,groupid,elementid){
 
     #replace Is, Js and Ls with (I|J|L) to use for regex lookup, store the data set as "pep"
     pep$pepregex <- gsub("[I|J|L]", "(I|J|L)", pep[,elementid])
-
-    #elementid_quo <- dplyr::enquo(elementid)
-    #message(elementid_quo)
-    #print(head(pep))
-
-    #pep <- pep %>% dplyr::rowwise() %>% summarize(x = stringr::str_locate_all("Peptide", "Sequence"))
-
 
     #extract the columns with the peptides and the sequences respectively
     peptide_column <- pep$pepregex
@@ -49,16 +39,6 @@ cov_columns <- function(data_table,proteome,groupid,elementid){
         #s=1 for start position, s=2 for end position.
         comparison <- stringr::str_locate_all(sequence_column[1],peptide_column[1])[[1]][,s]
 
-        #if(length(comparison) == 0){
-        #
-            #if the peptide sequence appears once in the full protein sequence, fill row$Pos with the number
-        #}else if(length(comparison) == 1){
-        #    Pos <- comparison
-        #    #if it appears more than once, it should return a list with the starting positions. Still pending.
-        #}else{
-        #    Pos <- comparison %>% list()
-        #}
-    #to do: flatten the comparison to multiple rows
     return(comparison)
     }
 

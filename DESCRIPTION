@@ -1,10 +1,15 @@
 Package: pepliner
 Title: MS Data Visualization
 Version: 0.1
-Authors@R: person("Nicolas", "Gort Freitas", email = "nicolas@minerva.kgi.edu", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.4.1)
-License: MIT + file LICENSE
+Authors@R: c(
+       person("Claire D.", "McWhite", , "claire.mcwhite@utexas.edu", c("aut", "cre")),
+       person("Nicolas", "Gort Freitas", email = "nicolas@minerva.kgi.edu", role = c("aut")))
+Description: A package for visualizing peptides and proteins across fractionation-MS experiments.
+URL: https://github.com/marcottelab/pepliner
+Depends: 
+     R (>= 3.4.1),
+     ggplot2 (>= 2.1),
+     ggridges
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
@@ -12,9 +17,17 @@ Suggests: testthat
 Imports:
 	cowplot,
 	dplyr,
-	ggplot2,
 	lazyeval,
 	purrr,
 	seqinr,
 	stringr,
-	tidyr,
+	tidyr
+VignetteBuilder: knitr
+Collate:
+    'complete_counts.R'
+    'cov_columns.R'
+    'covplot.R'
+    'sparkplot.R'
+    'pep_elut_data.R'
+License: MIT + file LICENSE
+Roxygen: list(markdown = TRUE)

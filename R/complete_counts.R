@@ -1,22 +1,16 @@
-#' Fill missing x-axis values with zero.
+#' Fill missing x-axis values with zero. Very similar to tidyr::complete.
 #'
-#' @param raw_data Data frame
-## @param outname If export = TRUE, output the resulting data frame named after this argument.
+#' @param raw_data Tidy dataframe with columns for x axis, y axis, and observations.
 #' @param xaxis Name of the column with X-axis values.
 #' @param yaxis Name of the column with Y-axis values.
 #' @importFrom dplyr filter
 #' @importFrom tidyr spread_ gather_
 #' @importFrom purrr %>%
-## @import lazyeval
-#' @return Data frame with added rows
-#' @export
+#' @import lazyeval
+#' @return Data frame with added rows for missing x axis values
 #' @examples
-#' test_data <- read.csv(system.file('extdata/msdata.csv',package='pepliner'))
 #' complete_counts(test_data,xaxis='FractionID',yaxis='PeptideCount')
-
-# suppressPackageStartupMessages(library(tidyverse))
-# suppressPackageStartupMessages(library(lazyeval))
-
+#' @export
 complete_counts <- function(raw_data,xaxis,yaxis){
 
     #spread and gather leaving every other column than xaxis and yaxis intact.
@@ -28,9 +22,9 @@ complete_counts <- function(raw_data,xaxis,yaxis){
     post_data<-unique(post_data)
 
     #Only filter long proteins if there is a length column
-    if("Length"%in%colnames(post_data) ){             #Don't want proteins that are too long :(
-        post_data <- post_data %>% dplyr::filter(Length < 1500)
-    }
+    #if("Length"%in%colnames(post_data) ){             #Don't want proteins that are too long :(
+    #    post_data <- post_data %>% dplyr::filter(Length < 1500)
+    #}
 
     return(post_data)
 }

@@ -22,7 +22,5 @@ Data frame with the following added columns: "Start", "End", "Sequence", "Appear
 Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).
 }
 \examples{
-test_data <- read.csv(system.file('extdata/msdata.csv',package='pepliner'))
-sequences <- system.file('extdata/proteome.fasta',package='pepliner')
 cov_columns(test_data,sequences,groupid='ID',elementid='Peptide')
 }

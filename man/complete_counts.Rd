@@ -2,24 +2,23 @@
 % Please edit documentation in R/complete_counts.R
 \name{complete_counts}
 \alias{complete_counts}
-\title{Fill missing x-axis values with zero.}
+\title{Fill missing x-axis values with zero. Very similar to tidyr::complete.}
 \usage{
 complete_counts(raw_data, xaxis, yaxis)
 }
 \arguments{
-\item{raw_data}{Data frame}
+\item{raw_data}{Tidy dataframe with columns for x axis, y axis, and observations.}
 
 \item{xaxis}{Name of the column with X-axis values.}
 
 \item{yaxis}{Name of the column with Y-axis values.}
 }
 \value{
-Data frame with added rows
+Data frame with added rows for missing x axis values
 }
 \description{
-Fill missing x-axis values with zero.
+Fill missing x-axis values with zero. Very similar to tidyr::complete.
 }
 \examples{
-test_data <- read.csv(system.file('extdata/msdata.csv',package='pepliner'))
 complete_counts(test_data,xaxis='FractionID',yaxis='PeptideCount')
 }
