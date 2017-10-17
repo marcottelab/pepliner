@@ -1,60 +1,46 @@
 #' Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).
 #'
 #' @param data_table Data frame to which the coverage columns will be appended. Must contain a column of peptide sequences and a column of the parental protein of each peptide.
-#' @param proteome FASTA file from which the sequences will be extracted. IDs must match protein IDs in the input data_table.
-#' @param groupid Colname of column (factor, not numeric) containing protein IDs. IDs must match proteome identifiers.
-#' @param elementid Colname of column containing peptide sequences. Will be searched against the sequences extracted from the FASTA file.
+#' @param elementid Colname of column containing peptide sequences. Will be searched against the sequences extracted from the proteome file.
 #' @importFrom dplyr mutate
 #' @importFrom stringr str_locate_all
 #' @importFrom purrr as_vector map %>%
-#' @importFrom seqinr read.fasta
 #' @importFrom stats setNames
 #' @return Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
 #' @examples
-#' cov_columns(test_data,sequences,groupid='ID',elementid='Peptide')
+#' cov_columns(test_data, seqid='ID',elementid='Peptide')
 #' @export
-cov_columns <- function(data_table,proteome,groupid,elementid){
-    fasta <- seqinr::read.fasta(proteome)
-    #create a list of strings with all the sequences, capitalize them
-    list_seq <- lapply(fasta,function(lst){lst[1:length(lst)] %>% paste(collapse='') %>% toupper()})
-    #convert the list into a data frame
-    list_seq <- data.frame(names(list_seq) %>% purrr::as_vector(),unname(list_seq) %>% purrr::as_vector())
-    names(list_seq) <- c(groupid,'Sequence')
-    #add the full protein sequence column to the original data set.
-    pep <- merge(x = data_table, y = list_seq, by = groupid, all.x = TRUE)
+cov_columns <- function(df, elementid="Peptide"){
 
-    #replace Is, Js and Ls with (I|J|L) to use for regex lookup, store the data set as "pep"
-    pep$pepregex <- gsub("[I|J|L]", "(I|J|L)", pep[,elementid])
+    pepregex <- mapply(gsub, pattern = "[I|J|L]",
+                       replacement = "(I|J|L)", df[,elementid]) %>% as.vector()
+    df$pepregex <- pepregex
 
-    #extract the columns with the peptides and the sequences respectively
-    peptide_column <- pep$pepregex
-    sequence_column <- pep[,colnames(pep)=='Sequence'] %>% as.character()
     #create Length vector, to be appended to the original data frame afterwards
-    Length <- nchar(sequence_column)
-    pep$Length <- Length
+    Length <- nchar(df$Sequence)
+    df$Length <- Length
 
     getStartorEnd <- function(peptide_column, sequence_column, s=1){
         #Find start end positions of a substring within a string
 
         #s=1 for start position, s=2 for end position.
-        comparison <- stringr::str_locate_all(sequence_column[1],peptide_column[1])[[1]][,s]
+        comparison <- stringr::str_locate_all(sequence_column[1],peptide_column[1])[[1]][,s][1]
 
-    return(comparison)
+        return(comparison)
     }
+    df$Start <- mapply(getStartorEnd, df$pepregex, df$Sequence, 1)
+    df$End <- mapply(getStartorEnd, df$pepregex, df$Sequence, 2)
 
-    pep$Start <- mapply(getStartorEnd, pep$pepregex, pep$Sequence, 1)
-    pep$End <- mapply(getStartorEnd, pep$pepregex, pep$Sequence, 2)
-
-    pep <- pep %>% filter(!is.na(Start)) %>% filter(!is.na(End))
+    #Not sure about this
+    #df <- df %>% filter(!is.na(Start)) %>% filter(!is.na(End))
     #this, ideally, would differentiate between peptides found twice within the protein structure. Still pending.
-    pep$Appearance <- ''
+    df$Appearance <- ''
     #for(i in 1:length(peptide_column)){
     #    Appearance[i] <- length(stringr::str_locate_all(sequence_column[i],peptide_column[i])[[1]][,1])
     #}
 
-    #exclude Sequence column.
-    pep$Sequence <- NULL
-    pep$pepregex <- NULL
+    df$pepregex <- NULL
 
-    return(pep)
+    return(df)
 }
+

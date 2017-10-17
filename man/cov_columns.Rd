@@ -4,16 +4,12 @@
 \alias{cov_columns}
 \title{Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).}
 \usage{
-cov_columns(data_table, proteome, groupid, elementid)
+cov_columns(df, elementid = "Peptide")
 }
 \arguments{
+\item{elementid}{Colname of column containing peptide sequences. Will be searched against the sequences extracted from the proteome file.}
+
 \item{data_table}{Data frame to which the coverage columns will be appended. Must contain a column of peptide sequences and a column of the parental protein of each peptide.}
-
-\item{proteome}{FASTA file from which the sequences will be extracted. IDs must match protein IDs in the input data_table.}
-
-\item{groupid}{Colname of column (factor, not numeric) containing protein IDs. IDs must match proteome identifiers.}
-
-\item{elementid}{Colname of column containing peptide sequences. Will be searched against the sequences extracted from the FASTA file.}
 }
 \value{
 Data frame with the following added columns: "Start", "End", "Sequence", "Appearance".
@@ -22,5 +18,5 @@ Data frame with the following added columns: "Start", "End", "Sequence", "Appear
 Append columns related to the position of peptide in a protein: Start (start position of a peptide in a protein), End (end position of a peptide in a protein), Protlength (length of the full protein), Appearance (if a peptide appears multiple times in a protein).
 }
 \examples{
-cov_columns(test_data,sequences,groupid='ID',elementid='Peptide')
+cov_columns(test_data, seqid='ID',elementid='Peptide')
 }

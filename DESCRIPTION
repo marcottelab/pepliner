@@ -29,5 +29,6 @@ Collate:
     'covplot.R'
     'sparkplot.R'
     'pep_elut_data.R'
+    'read_fasta.R'
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
