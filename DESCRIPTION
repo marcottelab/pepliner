@@ -11,7 +11,7 @@ Depends:
      ggplot2 (>= 2.1),
      ggridges
 Encoding: UTF-8
-LazyData: true
+LazyData: TRUE
 RoxygenNote: 6.0.1.9000
 Suggests: testthat
 Imports:

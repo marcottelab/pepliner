@@ -27,18 +27,18 @@ library(ggplot2)
 library(forcats)
 library(pepliner)
 
-df <- data("msdata")
-df_comp <- complete_counts(raw_data=df, xaxis="FractionID", yaxis="PeptideCount")
+#df <- data("msdata")
+#df_comp <- complete_counts(raw_data=df, xaxis="FractionID", yaxis="PeptideCount")
 
-print(df_comp)
+#print(df_comp)
 
-df_sel <- df_comp %>% filter(ID =="sp|Q9P258|RCC2_HUMAN")
+#df_sel <- df_comp %>% filter(ID =="sp|Q9P258|RCC2_HUMAN")
 
-df_norm <- df_sel %>% group_by(Peptide) %>% mutate(PeptideCount = normalit(PeptideCount))
+#df_norm <- df_sel %>% group_by(Peptide) %>% mutate(PeptideCount = normalit(PeptideCount))
 
-print(df_norm)
+#print(df_norm)
 
-df_cov <- cov_columns(data_table = df_norm, proteome="proteome.fasta", groupid = "ID", elementid = "Peptide")
+#df_cov <- cov_columns(data_table = df_norm, proteome="proteome.fasta", groupid = "ID", elementid = "Peptide")
 
-print(df_cov)
+#print(df_cov)
 ```
