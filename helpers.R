@@ -48,52 +48,52 @@ library(readr)
 
 ##================================================================================##
 
-source("fun-lines.R")
-source("fun-peppositions.R")
-source("fun-protlines.R")
+source("fun/fun-lines.R")
+source("fun/fun-peppositions.R")
+source("fun/fun-protlines.R")
 #source("fun-heatmap.R")
 #source("fun-analyzecounts.R")
 #source("fun-analysisres.R")
 #source("fun-groupplots.R")
 
 #troubleshooting
-if(FALSE) {
-  seqdata <- read.csv("data/mousecounts_example.csv",stringsAsFactors = FALSE)
-  load('data/mousecounts_example_analysis_results.RData')
-  load('data/mousecounts_example_analyzed.RData') #example_data_results
-  data_analyzed = list('group_names'=group_names,'sampledata'=sampledata,
-                       "results"=results,"data_long"=data_long, "geneids"=geneids,
-                       "expr_data"=expr_data,"data_results_table"=example_data_results)
-  
-  data_results = data_analyzed$results
-  
-  test_sel = "group2/group1"
-  sel_test = test_sel
-  fdrcut = 0.05
-  absFCcut = 1
-  group_sel = c("group1","group2")
-  valuename = "log2cpm"
-  yname="log2cpm"
-  maxgenes = 200
-  view_group=NULL
-  filter_by_go=FALSE
-  filter_fdr=FALSE
-  filter_maxgene=TRUE
-  filter_cpm=FALSE
-  filter_fc=FALSE
-  fold_change_range=NULL
-  fold_change_groups=NULL
-  group_filter_range =NULL
-  fixed_genes_list=NULL
-  orderby="variance"
-  
-  tmpdat = heatmap_subdat(data_analyzed,yname,orderby="variance",maxgenes=100)
-  heatmap_render(data_analyzed,yname,orderby="variance",maxgenes=100)
-  
-  mydat = heatmap_ggvis_data(
-    data_analyzed = data_analyzed,
-    yname = yname,
-    orderby = "variance",
-    maxgenes=100)
-
-}
+#if(FALSE) {
+#  seqdata <- read.csv("data/mousecounts_example.csv",stringsAsFactors = FALSE)
+#  load('data/mousecounts_example_analysis_results.RData')
+#  load('data/mousecounts_example_analyzed.RData') #example_data_results
+#  data_analyzed = list('group_names'=group_names,'sampledata'=sampledata,
+#                       "results"=results,"data_long"=data_long, "geneids"=geneids,
+#                       "expr_data"=expr_data,"data_results_table"=example_data_results)
+#  
+#  data_results = data_analyzed$results
+#  
+#  test_sel = "group2/group1"
+#  sel_test = test_sel
+#  fdrcut = 0.05
+#  absFCcut = 1
+#  group_sel = c("group1","group2")
+#  valuename = "log2cpm"
+#  yname="log2cpm"
+#  maxgenes = 200
+#  view_group=NULL
+#  filter_by_go=FALSE
+#  filter_fdr=FALSE
+#  filter_maxgene=TRUE
+#  filter_cpm=FALSE
+#  filter_fc=FALSE
+#  fold_change_range=NULL
+#  fold_change_groups=NULL
+#  group_filter_range =NULL
+#  fixed_genes_list=NULL
+#  orderby="variance"
+#  
+#  tmpdat = heatmap_subdat(data_analyzed,yname,orderby="variance",maxgenes=100)
+#  heatmap_render(data_analyzed,yname,orderby="variance",maxgenes=100)
+#  
+#  mydat = heatmap_ggvis_data(
+#    data_analyzed = data_analyzed,
+#    yname = yname,
+#    orderby = "variance",
+#    maxgenes=100)
+#
+#}

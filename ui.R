@@ -45,19 +45,19 @@ tagList(
     theme = "bootstrap.min.united.updated.css",
     #United theme from http://bootswatch.com/
     title = "Pepliner: Protein elution viewer",
-    source("ui-tab-landing.R",local=TRUE)$value,
+    source("ui/ui-tab-landing.R",local=TRUE)$value,
     ## =========================================================================== ##
     ## DOWNLOAD DATA TABS
     ## =========================================================================== ##
-    source("ui-tab-inputdata.R",local=TRUE)$value,
+    source("ui/ui-tab-inputdata.R",local=TRUE)$value,
     ## =========================================================================== ##
     ## Visualization TABS
     ## =========================================================================== ##
-    source("ui-tab-lines.R",local=TRUE)$value,
-    source("ui-tab-protlines.R",local=TRUE)$value,
-    source("ui-tab-help.R",local=TRUE)$value,
-    source("ui-tab-news.R",local=TRUE)$value,
-    source("ui-tab-terms.R",local=TRUE)$value,
+    source("ui/ui-tab-lines.R",local=TRUE)$value,
+    source("ui/ui-tab-protlines.R",local=TRUE)$value,
+    source("ui/ui-tab-help.R",local=TRUE)$value,
+    source("ui/ui-tab-news.R",local=TRUE)$value,
+    source("ui/ui-tab-terms.R",local=TRUE)$value,
     #end definitions of tabs, now footer
     ## ============================================================================ ##
     ## INFO TAB
@@ -66,7 +66,7 @@ tagList(
     ## ==================================================================================== ##
     ## FOOTER
     ## ==================================================================================== ##              
-    footer=p(hr(),"ShinyApp created by Claire McWhite of UT Austin",
+    footer=p(hr(),p(("ShinyApp created by Claire McWhite of UT Austin"),align="center", width=4),
              #p(("Code available on Github:"),a("https://github.com/marcottelab/pepliner",href="https://github.com/marcottelab/pepliner"),align="center",width=4),
               p(("modified from START app by {Jessica Minnier + Jiri Sklenar + Jonathan Nelson} of "),align="center",width=4),
              p(("Knight Cardiovascular Institute, Oregon Health & Science University"),align="center",width=4),
