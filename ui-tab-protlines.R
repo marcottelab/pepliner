@@ -1,6 +1,7 @@
 ## ==================================================================================== ##
 # Pepliner: App for visualizing protein elution data
-# Copyright (C) 2016  Jessica Minnier
+# Modified 2018 from the original GNUpl3 by Claire D. McWhite <claire.mcwhite@utexas.edu>
+# Original Copyright (C) 2016 Jessica Minnier, START Shiny Transcriptome Analysis Tool
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # 
-# You may contact the author of this code, Jessica Minnier, at <minnier@ohsu.edu>
+
 ## ==================================================================================== ##
 
 
@@ -63,14 +64,14 @@ tabPanel("Protein plots",
                            h5("This panel constructs box and whisker plots of log2(CPM) or CPM values with dot plots
                               superimposed to show the raw data. When there are three data points the median and 
                               interquartile ranges are precisely the data values. Medians are denoted by horizontal
-                              lines and averages are denoted by open diamonds.")#,
+                              lines and averages are denoted by open diamonds.")
                            #br(),br(),br(),br(),br(),br(),br(),br(), br(),br(),br(), 
                            #img(src="KCardio_CMYK_4C_pos_small.jpg",height=150,width= 275,align="right")	
                   ))#,#end tabPanel
                   ## ==================================================================================== ##
                   ## GENE DATA: DOT PLOT DATA
                   ## ==================================================================================== ## 
-                  #CDMtabPanel(title="Data Output",
+                  #tabPanel(title="Data Output",
                   #         downloadButton('downloadSubsetData', 'Download Data Subset as CSV File'),
                   #         DT::dataTableOutput("dat_protlineplot")
                   #)#tabsetPanel

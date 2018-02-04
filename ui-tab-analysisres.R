@@ -1,7 +1,8 @@
 
 ## ==================================================================================== ##
 # Pepliner: App for visualizing protein elution data
-# Copyright (C) 2016  Jessica Minnier
+# Modified 2018 from the original GNUpl3 by Claire D. McWhite <claire.mcwhite@utexas.edu>
+# Original Copyright (C) 2016 Jessica Minnier, START Shiny Transcriptome Analysis Tool
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # 
-# You may contact the author of this code, Jessica Minnier, at <minnier@ohsu.edu>
+
 ## ==================================================================================== ##
 
 

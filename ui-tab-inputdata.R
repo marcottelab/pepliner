@@ -30,7 +30,7 @@ tabPanel("Input Data",
                         c('Upload Data'="upload",
                           'Pepliner RData file'="previousrdata",
                           'Example Data'="examplecounts"
-                        ),selected = "examplecounts"),
+                        ), selected = "examplecounts"),
            conditionalPanel(condition="input.data_file_type=='previousrdata'",
                             fileInput('rdatafile','Upload Pepliner App Generated RData File'),
                             conditionalPanel("output.fileUploaded",h4(strong("Check data contents then click:")))

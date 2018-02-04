@@ -36,23 +36,26 @@ output$protlineplot <- renderPlot({
 
 
 
-DataLineplotReactive <- reactive({
-  print("DataLineplotReactive")
-  data_analyzed = analyzeDataReactive()
+#DataProtLineplotReactive <- reactive({
+#  print("DataProtLineplotReactive")
+#  data_analyzed = analyzeDataReactive()
+#
+#  subdat = protlineplot_dat(df_norm_prot = data_analyzed$df_norm_prot, ids = data_analyzed$ids,
+#                       protsel_id=input$protsel_id)
+#  return(subdat)
+#})
+#
+#output$dat_protlineplot <- DT::renderDataTable({
+#  tmpdat = DataProtLineplotReactive()
+#  tmpdat[,sapply(tmpdat,is.numeric)] <- signif(tmpdat[,sapply(tmpdat,is.numeric)],3)
+#  DT::datatable(tmpdat)
+#}
+#)
+#
+#output$downloadSubsetData <- downloadHandler(
+#  #To do: make filename from selected IDs
+#  protsel_id_str <- paste(input$protsel_id,collapse="_")
+#  filename = paste('protlineplot', protsel_id_str, '.csv', sep='')
+#  content = function(file) {write.csv(DataLineplotReactive(), file, row.names=FALSE)}
+#)
 
-  subdat = lineplot_dat(df_full = data_analyzed$df_full, ids = data_analyzed$ids,
-                       sel_id=input$sel_id)
-  return(subdat)
-})
-
-output$dat_lineplot <- DT::renderDataTable({
-  tmpdat = DataLineplotReactive()
-  tmpdat[,sapply(tmpdat,is.numeric)] <- signif(tmpdat[,sapply(tmpdat,is.numeric)],3)
-  DT::datatable(tmpdat)
-}
-)
-
-output$downloadSubsetData <- downloadHandler(
-  filename = c('lineplot_data.csv'),
-  content = function(file) {write.csv(DataLineplotReactive(), file, row.names=FALSE)}
-)
