@@ -2,23 +2,32 @@
 % Please edit documentation in R/read_fasta.R
 \name{read_fasta}
 \alias{read_fasta}
-\title{Read a fasta file into a two column dataframe, with one column for sequenceid and one column for sequence}
+\title{Read a FASTA file into a tidy dataframe. Wrapper around seqinr::read.fasta}
 \usage{
-read_fasta(proteome_file, seqid = "ID", seq = "Sequence")
+read_fasta(fasta_filename, annot = FALSE)
 }
 \arguments{
-\item{proteome_file}{FASTA file from which the sequences will be extracted.}
+\item{fasta_filename}{FASTA file from which the sequences will be extracted.}
 
-\item{seqid}{Colname of column for containint protein IDs.}
+\item{annot}{If TRUE, extract sequence ID annotation into its own column}
 
-\item{seq}{Colname for column containing sequences. Will be searched against the sequences extracted from the FASTA file.}
+\item{...}{Unused extra arguments}
 }
 \value{
-Two column dataframe with one column for ID and one column for sequence.
+A \code{tidy} data.frame with one column for ID and one column for sequence.
+\item{ID}{Sequence header from FASTA '>ID' }
+\item{Sequence}{Corresponding sequence, any bioalphabet (RNA/DNA/etc)}
+\item{Annot}{Full annotated FASTA header '>ID info|info|info'}
 }
 \description{
-Read a fasta file into a two column dataframe, with one column for sequenceid and one column for sequence
+Read a FASTA file into a tidy dataframe. Wrapper around seqinr::read.fasta
 }
 \examples{
-read_fasta(test.fasta, id="ID", sequenceid = "Sequence")
+test.fasta is a FASTA formatted file for ex:
+   > GENENAME1
+   atgctgacgta
+   agctacagtat
+   cagctactaag
+read_fasta("test.fasta")
+read_fasta("test.fasta", annot=TRUE)
 }
