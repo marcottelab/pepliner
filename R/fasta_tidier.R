@@ -24,13 +24,13 @@
 fasta_tidier <- function(fasta_seqinr_object, annot = FALSE){
 
     # Convert seqinr SeqFastadna object to data.frame
-    fasta_df <- fasta %>%
+    fasta_df <- fasta_seqinr_object %>%
                    sapply(function(x){x[1:length(x)]}) %>%
                    as.data.frame %>%
                    fix_data_frame(newcol = "ID", newnames = "Sequence")
 
     if(annot == TRUE){
-        annot_df <- getAnnot(fasta) %>%
+        annot_df <- getAnnot(fasta_seqinr_object) %>%
                          sapply(function(x){x[1:length(x)]}) %>%
                          as.data.frame() %>%
                          fix_data_frame(newnames = "Annot")
