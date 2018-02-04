@@ -1,6 +1,6 @@
 #' Converts a SeqFastadna object into a tidy dataframe.
 #'
-#' @param fasta_filename FASTA file from which the sequences will be extracted.
+#' @param fasta_seqinr_object FASTA file read by seqinr::read.fasta from which the sequences will be extracted.
 #' @param annot If TRUE, extract sequence ID annotation into its own column
 #' @param ... Unused extra arguments
 #' @importFrom dplyr %>%
@@ -18,7 +18,7 @@
 #
 #' seqinr_fasta_object <- seqinr::read.fasta("test.fasta")
 #' fasta_tidier(seqinr_fasta_object)
-#' fasta_tider(seqinr_fasta_object, annot=TRUE)
+#' fasta_tidier(seqinr_fasta_object, annot=TRUE)
 #' @export
 
 fasta_tidier <- function(fasta_seqinr_object, annot = FALSE){
