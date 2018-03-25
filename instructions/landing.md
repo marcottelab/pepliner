@@ -2,6 +2,8 @@
 output: html_document
 ---
 
+launch app with shiny::runApp(launch.browser = TRUE)
+
 **The Pepliner app is for viewing peptide or protein elution profiles**
 
 - In a fractionation-MS experiment, a protein sample is separated across a gradient into multiple fractions.

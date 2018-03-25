@@ -35,7 +35,10 @@ tabPanel("Protein plots",
                             placeholder = 
                               'Start typing to search for an ID'
                           ) #,
-           )#,#end selectInput
+           ), 
+           downloadButton('downloadProtPlot', 'Download Plot')
+
+#,#end selectInput
            #h5(htmlOutput("geneurl")),
            #checkboxGroupInput("sel_group",
            #                   label="Select Group",
