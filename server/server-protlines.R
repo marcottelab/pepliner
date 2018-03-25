@@ -25,10 +25,8 @@ observe({
                        choices= data_analyzedids,
                        server=TRUE)
 
+
 })
-
-
-
 
 print("server-protlines")
 
@@ -44,8 +42,9 @@ plotInput <- reactive({
   print(ids)
   #CDM not sure what this if for# 
   #pdf(NULL)
+  print(input$fill)
   p=protlineplot_fun(df_norm_prot = df_norm_prot,ids = ids,
-              protsel_id = input$protsel_id
+              protsel_id = input$protsel_id, fill=input$fill, size=input$linewidth, scale = input$lineoverlap
               )
  
   #p <-ggplot(df, aes_string(x=names(df)[1], y=names(df)[2])) +
@@ -86,11 +85,11 @@ output$dat_protlineplot <- DT::renderDataTable({
 )
 
 output$downloadProtPlot <- downloadHandler(
-    filename = function() { paste('protlineplot_', paste(input$protsel_id, collapse="_"), '.pdf', sep='') },
+    filename = function() { paste('protlineplot_', paste(input$protsel_id, collapse="_"), '.', input$device, sep='') },
     content = function(file) {
         #ggsave(file, plot = plotInput(), device = "pdf")
         #file.copy(paste('protlineplot_', paste(input$protsel_id, collapse="_"), '.pdf', sep='') , file, overwrite=TRUE)
-        ggsave(file, plot = plotInput(), device = "pdf", width=7, height=7, units="in")
+        ggsave(file, plot = plotInput(), device = input$device, width=7, height=7, units="in")
     }
 )
 

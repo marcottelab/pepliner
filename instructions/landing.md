@@ -96,12 +96,7 @@ launch app with shiny::runApp(launch.browser = TRUE)
 
 #### <a name="savedata"></a> *TIP*: Save Data for Future Upload
 
-After uploading your data to the pepliner app, click red button
-![](ex_click_rdata.png)
-
-to download an .RData file to upload your data to the pepline app with one click.
-
-Next time use the "Input Data" tab --> "Pepliner RData file" option.
+After uploading your data to the pepliner app, click the red button 'Save results at Pepliner Rdata file' to download an .RData file to create a session file to load in future sessions. In the "Input Data" tab, use the "Pepliner RData file" option.
 
 
 #### <a name="help"></a> More Help and Info

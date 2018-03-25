@@ -36,7 +36,6 @@ tabPanel("Protein plots",
                               'Start typing to search for an ID'
                           ) #,
            ), 
-           downloadButton('downloadProtPlot', 'Download Plot')
 
 #,#end selectInput
            #h5(htmlOutput("geneurl")),
@@ -44,8 +43,19 @@ tabPanel("Protein plots",
            #                   label="Select Group",
            #                   choices="", selected=""
            #),	
-           #radioButtons("sel_id_header",label="Select Gene Identifier Label",
-           #             choices=" "),
+           checkboxInput("facetByExp",label="Split by experiment ID?", FALSE),
+
+           #checkboxInput("conditionGroup",label="Group lines by condition?", FALSE),
+
+           #checkboxInput("fillUnder",label="Fill color under line?", TRUE),
+           colourInput("fill", "Fill color", "#E69F00", allowTransparent = TRUE),    
+           numericInput("linewidth", "Line size", min = 0, value = 0.3, step = 0.2), 
+           numericInput("lineoverlap", "Line overlap", min = 0, value = 0.9, step = 0.2), 
+
+
+           radioButtons("device", label = "File type?", choices = c("pdf", "png"), selected="pdf"), 
+
+           downloadButton('downloadProtPlot', 'Download Plot')
            #radioButtons("ytype","Y axis:",choices="")
                         #c("fitted cpm"="cpm","count"="count")),
 #            radioButtons("log2cpm_checked","Y axis transformation:",

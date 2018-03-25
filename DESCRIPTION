@@ -22,7 +22,8 @@ Imports:
 	seqinr,
 	stringr,
 	tidyr,
-        DT
+        DT,
+        colourpicker
 VignetteBuilder: knitr
 Collate:
     'complete_counts.R'
