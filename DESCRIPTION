@@ -26,9 +26,8 @@ VignetteBuilder: knitr
 Collate:
     'complete_counts.R'
     'cov_columns.R'
-    'covplot.R'
-    'sparkplot.R'
     'pep_elut_data.R'
     'read_fasta.R'
+    'fasta_tidier.R'
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
