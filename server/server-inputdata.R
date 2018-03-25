@@ -156,8 +156,9 @@ analyzeDataReactive <-
 
                         print("Final join")
                         df_full <- left_join(df_norm, df_cov, by = c("Peptide", "ID"))
-    
-                        df_prot <- df_comp %>% group_by(ID, FractionID) %>% 
+     
+                        #Test adding Experiment ID column
+                        df_prot <- df_comp %>% group_by(ID, FractionID, ExperimentID) %>% 
                                 summarize(ProteinCount = sum(PeptideCount))
                          
                         df_norm_prot <- df_prot %>% group_by(ID) %>%
@@ -187,7 +188,6 @@ analyzeDataReactive <-
 
                   })
                 })
-
 
 output$countdataDT <- renderDataTable({
   tmp <- inputDataReactive()
