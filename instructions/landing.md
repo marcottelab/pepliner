@@ -11,8 +11,10 @@ launch app with shiny::runApp(launch.browser = TRUE)
 - It's often necessary to visualized where a protein is detected across fractions.
 - Pepliner is a suite of R functions and a shiny app for viewing patterns of detection of peptides or proteins across multiple fractions.
 - The main functions of this shiny are to:
-- 1. Interactively select a series of proteins to plot (protein-level visualization)
-- 2. Interactively plot peptides from a single protein (peptide-level visualization)
+
+1. Interactively select a series of proteins to plot (protein-level visualization)
+
+2. Interactively plot peptides from a single protein (peptide-level visualization)
 
 - *Explore* the app's features with the example data set pre-loaded by clicking on the tabs above.
 - *Upload* your data in the "Input Data" tab.
@@ -43,7 +45,7 @@ launch app with shiny::runApp(launch.browser = TRUE)
 - Each row is a proteins's detection across fractions
 
 | ID  | Fraction1  | Fraction2  | Fraction3  |
-|---|---|---|---|---|
+|---|---|---|---|
 | ProteinA  | 0  | 1  | 3  |
 | ProteinB  | 5  | 25  | 10  |
 
@@ -69,23 +71,23 @@ launch app with shiny::runApp(launch.browser = TRUE)
 - Must contain a columns called Peptide and ID, with remaining rightward columns representing individual fractions
 - Each row is a peptide's detection across fractions.
 
-|Peptide| ID  | Fraction1  | Fraction2  | Fraction3  |
-|---|---|---|---|---|---|
-|AAGTEPR| ProteinA  | 0  | 1  | 1  |
-|CNMETLLK| ProteinA  | 0  | 0  | 2  |
-|IPRELVK| ProteinB  | 2  | 12  | 2  |
-|MITFPELLR| ProteinB  | 3  | 13  | 8  |
+|Peptide| ID | Fraction1 | Fraction2 | Fraction3 |
+|---|---|---|---|---|
+|AAGTEPR| ProteinA | 0 | 1 | 1 |
+|CNMETLLK| ProteinA | 0 | 0 | 2 |
+|IPRELVK| ProteinB | 2 | 12 | 2 |
+|MITFPELLR| ProteinB | 3 | 13 | 8 |
 ##### Tidy format
 - Must contain columns Peptide, ID, PeptideCount, FractionID (in any order)
 - Each row is a peptide's detection in a single fraction
 
 |Peptide| ID | FractionID | ProteinCount |
 |---|---|---|---|
-|AAGTEPR| ProteinA  | Fraction2  | 1  |
-|AAGTEPR| ProteinA  | Fraction3  | 1  |
-|CNMETLLK| ProteinA  | Fraction3  | 2  |
-|IPRELVK| ProteinB  | Fraction1  | 2  |
-|IPRELVK| ProteinB  | Fraction2  | 12  |
+|AAGTEPR| ProteinA | Fraction2 | 1 |
+|AAGTEPR| ProteinA | Fraction3 | 1 |
+|CNMETLLK| ProteinA | Fraction3 | 2 |
+|IPRELVK| ProteinB | Fraction1 | 2 |
+|IPRELVK| ProteinB | Fraction2 | 12 |
 |IPRELVK| ProteinB  | Fraction3  | 2  |
 |MITFPELLR| ProteinB  | Fraction3  | 3  |
 |MITFPELLR| ProteinB  | Fraction3  | 13  |
