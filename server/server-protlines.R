@@ -25,8 +25,8 @@ output$protlineplot <- renderPlot({
   ids = data_analyzed$ids
   #CDM not sure what this if for# if (names(dev.cur()) != "null device") dev.off()
   #pdf(NULL)
-  p=protlineplot_fun(df_norm_prot=df_norm_prot,ids=ids,
-              protsel_id=input$protsel_id
+  p=protlineplot_fun(df_norm_prot = df_norm_prot,ids = ids,
+              protsel_id = input$protsel_id
               )
   #ggsave(p, filename="test2.png")
   plot(p)
@@ -34,22 +34,22 @@ output$protlineplot <- renderPlot({
 
 
 
-#DataProtLineplotReactive <- reactive({
-#  print("DataProtLineplotReactive")
-#  data_analyzed = analyzeDataReactive()
-#
-#  subdat = protlineplot_dat(df_norm_prot = data_analyzed$df_norm_prot, ids = data_analyzed$ids,
-#                       protsel_id=input$protsel_id)
-#  return(subdat)
-#})
-#
+DataProtLineplotReactive <- reactive({
+  print("DataProtLineplotReactive")
+  data_analyzed = analyzeDataReactive()
 
-#output$dat_protlineplot <- DT::renderDataTable({
-#  tmpdat = DataProtLineplotReactive()
-#  tmpdat[,sapply(tmpdat,is.numeric)] <- signif(tmpdat[,sapply(tmpdat,is.numeric)],3)
-#  DT::datatable(tmpdat)
-#}
-#)
+  subdat = protlineplot_dat(df_norm_prot = data_analyzed$df_norm_prot, ids = data_analyzed$ids,
+                       protsel_id = input$protsel_id)
+  return(subdat)
+})
+
+
+output$dat_protlineplot <- DT::renderDataTable({
+  tmpdat = DataProtLineplotReactive()
+  tmpdat[,sapply(tmpdat,is.numeric)] <- signif(tmpdat[,sapply(tmpdat,is.numeric)],3)
+  DT::datatable(tmpdat)
+}
+)
 ##
 #
 ##CDM not sure if this works yet

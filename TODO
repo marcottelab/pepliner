@@ -1,0 +1,13 @@
+Add option tab for downloading image
+    - With dimension options
+    - With color/line options?
+
+Make data subset actually initiate download of csv
+
+Add color/line options to protein plot. 
+
+Add faceting option to plots
+
+Add multiple condition options (ie heavy/light, treated/untreated)
+
+ 

@@ -59,11 +59,8 @@ tabPanel("Protein plots",
                                plotOutput('protlineplot', height=600)
                            
                   ),#end tabPanel
-                  tabPanel(title="Info",
-                           h5("This panel constructs box and whisker plots of log2(CPM) or CPM values with dot plots
-                              superimposed to show the raw data. When there are three data points the median and 
-                              interquartile ranges are precisely the data values. Medians are denoted by horizontal
-                              lines and averages are denoted by open diamonds.")
+                  tabPanel(title="Data Output",
+                           h5("Download data for selected proteins"), downloadButton('Download Data Sutbset as CSV File'), DT::dataTableOutput("dat_protlineplot")
                            #br(),br(),br(),br(),br(),br(),br(),br(), br(),br(),br(), 
                            #img(src="KCardio_CMYK_4C_pos_small.jpg",height=150,width= 275,align="right")	
                   )#,#end tabPanel
@@ -71,7 +68,7 @@ tabPanel("Protein plots",
                    #Protein data: Selected proteins
                    #==================================================================================== ## 
                   #tabPanel(title="Data Output",
-                           #downloadButton('downloadSubsetData', 'Download Data Subset as CSV File'),
+                    #       downloadButton('downloadSubsetData', 'Download Data Subset as CSV File'),
                            #DT::dataTableOutput("dat_protlineplot")
                   #)# end tabPanel
 

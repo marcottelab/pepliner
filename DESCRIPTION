@@ -21,11 +21,13 @@ Imports:
 	purrr,
 	seqinr,
 	stringr,
-	tidyr
+	tidyr,
+        DT
 VignetteBuilder: knitr
 Collate:
     'complete_counts.R'
     'cov_columns.R'
+    'normalit.R'
     'pep_elut_data.R'
     'read_fasta.R'
     'fasta_tidier.R'

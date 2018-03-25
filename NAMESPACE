@@ -3,6 +3,7 @@
 export(complete_counts)
 export(cov_columns)
 export(fasta_tidier)
+export(normalit)
 export(read_fasta)
 import(lazyeval)
 importFrom(broom,fix_data_frame)
