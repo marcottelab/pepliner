@@ -43,8 +43,9 @@ tabPanel("Protein plots",
            #                   label="Select Group",
            #                   choices="", selected=""
            #),	
-           checkboxInput("facetByExp",label="Split by experiment ID?", FALSE),
-
+           #checkboxInput("facet",label="Facet by ExperimentID column?", FALSE),
+           checkboxInput("min_graphic_details",label="Minimal graphic details?", FALSE),
+           selectInput('facet', 'Column to facet by', c(None = '.', c("ExperimentID"))),
            #checkboxInput("conditionGroup",label="Group lines by condition?", FALSE),
 
            #checkboxInput("fillUnder",label="Fill color under line?", TRUE),
@@ -54,7 +55,8 @@ tabPanel("Protein plots",
 
 
            radioButtons("device", label = "File type?", choices = c("pdf", "png"), selected="pdf"), 
-
+           numericInput("plotwidth", "Width", min = 0, value = 600, step = 50), 
+           numericInput("plotheight", "Height", min = 0, value = 600, step = 50), 
            downloadButton('downloadProtPlot', 'Download Plot')
            #radioButtons("ytype","Y axis:",choices="")
                         #c("fitted cpm"="cpm","count"="count")),

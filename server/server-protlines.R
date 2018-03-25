@@ -44,7 +44,7 @@ plotInput <- reactive({
   #pdf(NULL)
   print(input$fill)
   p=protlineplot_fun(df_norm_prot = df_norm_prot,ids = ids,
-              protsel_id = input$protsel_id, fill=input$fill, size=input$linewidth, scale = input$lineoverlap
+              protsel_id = input$protsel_id, fill=input$fill, size=input$linewidth, scale = input$lineoverlap, facet = input$facet, min_graphic_details = input$min_graphic_details
               )
  
   #p <-ggplot(df, aes_string(x=names(df)[1], y=names(df)[2])) +
@@ -53,18 +53,16 @@ plotInput <- reactive({
   #return(p)
   })
 
+observe({
 
 output$protlineplot <- renderPlot({
 
- #ggsave(p, filename="test2.png")
-  #plot(p)
   #if (names(dev.cur()) != "null device") {dev.off()}
   print(plotInput())
   #if (names(dev.cur()) != "null device") {dev.off()}
-  #ggsave(paste('protlineplot_', paste(input$protsel_id, collapse="_"), '.pdf', sep='') , plotInput())
 
-}) #renderPlot
-
+}, width = input$plotwidth, height = input$plotheight) #renderPlot
+})
 
 
 DataProtLineplotReactive <- reactive({
@@ -89,7 +87,7 @@ output$downloadProtPlot <- downloadHandler(
     content = function(file) {
         #ggsave(file, plot = plotInput(), device = "pdf")
         #file.copy(paste('protlineplot_', paste(input$protsel_id, collapse="_"), '.pdf', sep='') , file, overwrite=TRUE)
-        ggsave(file, plot = plotInput(), device = input$device, width=7, height=7, units="in")
+        ggsave(file, plot = plotInput(), device = input$device, width=input$plotwidth, height=input$plotheight, units="pt")
     }
 )
 
