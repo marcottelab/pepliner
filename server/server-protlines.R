@@ -90,7 +90,7 @@ output$downloadProtPlot <- downloadHandler(
     content = function(file) {
         #ggsave(file, plot = plotInput(), device = "pdf")
         #file.copy(paste('protlineplot_', paste(input$protsel_id, collapse="_"), '.pdf', sep='') , file, overwrite=TRUE)
-        ggsave(file, plot = plotInput(), device = input$device, width=input$plotwidth, height=input$plotheight, units="pt")
+        ggsave(file, plot = plotInput(), device = input$device, width=0.08*input$plotwidth, height=0.08*input$plotheight, units='cm')
     }
 )
 
