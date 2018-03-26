@@ -54,10 +54,10 @@ inputDataReactive <- reactive({
     print("uploaded peptide data")
     proteomedata <- read_fasta("data/uniprot-proteome_human_reviewed_minimal.fasta")
     return(list('data'=seqdata, 'proteomedata'=proteomedata))
-  }else if(input$data_file_type=="previousrdata"){
+  }else if(input$data_file_type == "previousrdata"){
     if (!is.null(inRFile)) {
-      load(inRFile$datapath,envir=environment())
-      return(list("data"=data_results_table)) # this is so something shows in data upload window
+      load(inRFile$datapath,envir = environment())
+      return(list("data" = data_results_table)) # this is so something shows in data upload window
     }else{return(NULL)}
   }else { # if uploading data
     if (!is.null(inFile)) {
@@ -67,9 +67,9 @@ inputDataReactive <- reactive({
         seqdata <- read_tsv(inFile$datapath)
         print('changed to tsv, uploaded seqdata')
       }
-      validate(need(ncol(seqdata)>1,
+      validate(need(ncol(seqdata) > 1,
                     message="File appears to be one column. Check that it is a comma-separated (.csv) file."))
-      return(list('data'=seqdata))}else{return(NULL)}
+      return(list('data' = seqdata))}else{return(NULL)}
   }
 })
 
@@ -130,7 +130,7 @@ analyzeDataReactive <-
                     # remove empty columns
                     alldata = alldata[,colMeans(is.na(alldata))<1]
                     ids <- alldata %>% select(ID) %>% unique
-                    if(input$inputdat_type=="peps" | input$data_file_type == "examplecounts") {
+                    if(input$inputdat_type == "peps" | input$data_file_type == "examplecounts") {
                           proteomedata <- inputDataReactive()$proteomedata
 
                           print("Standardizing proteome")
@@ -173,10 +173,12 @@ analyzeDataReactive <-
                             df_comp_prot <- complete_counts(raw_data = alldata , xaxis = "FractionID", yaxis = "ProteinCount")
                          }
 
-                         if(input$inputdat_format=="wide"){
+                         if(input$inputdat_format == "wide"){
+                            print(head(alldata))
                             df_comp_prot <- alldata %>% gather(FractionID, ProteinCount, -ID)
                          } 
 
+                         print(head(df_comp_prot))
                          df_norm_prot <- df_comp_prot %>% group_by(ID) %>%
                                    mutate(ProteinCount = normalit(ProteinCount)) %>% ungroup
                      

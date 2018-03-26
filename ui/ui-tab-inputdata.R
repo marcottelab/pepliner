@@ -95,7 +95,13 @@ tabPanel("Input Data",
                                                tags$li("Third column must be fractionID"),
                                                tags$li("Fourth column must be value (ex. spectral counts)")
                                              )
-                            )
+                            ),
+                            fileInput('datafile', 'Choose File Containing Data (.CSV)',
+                                      accept=c('text/csv', 
+                                               'text/comma-separated-values,text/plain', 
+                                               '.csv'))
+
+
  
                             )
 
