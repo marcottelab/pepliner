@@ -42,10 +42,13 @@ plotInput <- reactive({
   print(ids)
   #CDM not sure what this if for# 
   #pdf(NULL)
-  print(input$fill, input$facet, input$lineoverlap)
+  #print(input$fill, input$facet, input$lineoverlap)
   p=protlineplot_fun(df_norm_prot = df_norm_prot,ids = ids,
-              protsel_id = input$protsel_id, fill=input$fill, size=input$linewidth, scale = input$lineoverlap, facet = input$facet, min_graphic_details = input$min_graphic_details
+              protsel_id = input$protsel_id, fill=input$fill, size=input$linewidth, scale = input$lineoverlap, min_graphic_details = input$min_graphic_details
               )
+
+
+
  
   #p <-ggplot(df, aes_string(x=names(df)[1], y=names(df)[2])) +
   #    geom_point()
