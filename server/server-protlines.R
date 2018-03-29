@@ -44,7 +44,7 @@ plotInput <- reactive({
   #pdf(NULL)
   #print(input$fill, input$facet, input$lineoverlap)
   p=protlineplot_fun(df_norm_prot = df_norm_prot,ids = ids,
-              protsel_id = input$protsel_id, fill=input$fill, size=input$linewidth, scale = input$lineoverlap, min_graphic_details = input$min_graphic_details
+              protsel_id = input$protsel_id, fill=input$fill, size=input$linewidth, scale = input$lineoverlap, min_graphic_details = input$min_graphic_details, condition=input$condition, facets=input$facets
               )
 
 

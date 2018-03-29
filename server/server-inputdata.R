@@ -158,9 +158,16 @@ analyzeDataReactive <-
                         df_full <- left_join(df_norm, df_cov, by = c("Peptide", "ID"))
      
                         #Test adding Experiment ID column
-                        df_prot <- df_comp %>% group_by(ID, FractionID, ExperimentID) %>% 
+
+    
+                       
+                        #df_prot <- df_comp %>% group_by(ID, FractionID, ExperimentID) %>% 
+                        #        summarize(ProteinCount = sum(PeptideCount))
+                       
+                        df_prot <- df_comp %>% group_by_at(vars(-PeptideCount, -Peptide)) %>% 
                                 summarize(ProteinCount = sum(PeptideCount))
-                         
+                        print(head(df_prot)) 
+  
                         df_norm_prot <- df_prot %>% group_by(ID) %>%
                                    mutate(ProteinCount = normalit(ProteinCount)) %>% ungroup
                         print('analyze peptide data: done')
