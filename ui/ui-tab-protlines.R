@@ -20,10 +20,6 @@
 ## ==================================================================================== ##
 
 
-## ==================================================================================== ##
-## GENE DATA TAB 
-## ==================================================================================== ## 
-
 tabPanel("Protein plots",
          fluidRow(column(4,wellPanel(
            tags$head( tags$style("body {background-color: white; }")),
@@ -34,16 +30,9 @@ tabPanel("Protein plots",
                           options = list(
                             placeholder = 
                               'Start typing to search for an ID'
-                          ) #,
+                          )
            ), 
 
-#,#end selectInput
-           #h5(htmlOutput("geneurl")),
-           #checkboxGroupInput("sel_group",
-           #                   label="Select Group",
-           #                   choices="", selected=""
-           #),	
-           #checkboxInput("facet",label="Facet by ExperimentID column?", FALSE),
            checkboxInput("min_graphic_details",label="Minimal graphic details?", FALSE),
            checkboxGroupInput('facets', 'Column(s) to facet by', choices = list("ExperimentID", "condition")),
            checkboxInput("condition",label="Group lines by condition?", FALSE),
@@ -58,16 +47,10 @@ tabPanel("Protein plots",
            numericInput("plotwidth", "Width", min = 0, value = 600, step = 50), 
            numericInput("plotheight", "Height", min = 0, value = 600, step = 50), 
            downloadButton('downloadProtPlot', 'Download Plot')
-           #radioButtons("ytype","Y axis:",choices="")
-                        #c("fitted cpm"="cpm","count"="count")),
-#            radioButtons("log2cpm_checked","Y axis transformation:",
-#                         c("log2"=TRUE,"raw value"=FALSE))
-         ) #end WellPanel #,#br(),br(),br(),br(),br(),br(),br(),br(), 
+         ) #end WellPanel  
          ), #end column, 
-         ## ==================================================================================== ##
-         ## GENE DATA: DOT PLOT
-         ## Search gene name to view dotplot(s) of expression    
-         ## ==================================================================================== ## 
+         
+
          column(8,
                 tabsetPanel(
                   tabPanel(title="ProtLinePlot",
@@ -76,16 +59,7 @@ tabPanel("Protein plots",
                   ),#end tabPanel
                   tabPanel(title="Data Output",
                            h5("Download data for selected proteins"), downloadButton('Download Data Sutbset as CSV File'), DT::dataTableOutput("dat_protlineplot")
-                           #br(),br(),br(),br(),br(),br(),br(),br(), br(),br(),br(), 
-                           #img(src="KCardio_CMYK_4C_pos_small.jpg",height=150,width= 275,align="right")	
                   )#,#end tabPanel
-                   #==================================================================================== ##
-                   #Protein data: Selected proteins
-                   #==================================================================================== ## 
-                  #tabPanel(title="Data Output",
-                    #       downloadButton('downloadSubsetData', 'Download Data Subset as CSV File'),
-                           #DT::dataTableOutput("dat_protlineplot")
-                  #)# end tabPanel
 
 
 
