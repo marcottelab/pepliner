@@ -53,7 +53,8 @@ tagList(
     ## =========================================================================== ##
     ## Visualization TABS
     ## =========================================================================== ##
-    source("ui/ui-tab-lines.R",local=TRUE)$value,
+    source("ui/ui-tab-peplines.R",local=TRUE)$value,
+
     source("ui/ui-tab-protlines.R",local=TRUE)$value,
     source("ui/ui-tab-help.R",local=TRUE)$value,
     source("ui/ui-tab-news.R",local=TRUE)$value,
