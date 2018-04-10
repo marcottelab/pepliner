@@ -50,7 +50,7 @@ library(readr)
 ##================================================================================##
 
 source("fun/fun-peplines.R")
-source("fun/fun-peppositions.R")
+source("fun/fun-pepcov.R")
 source("fun/fun-protlines.R")
 #source("fun-heatmap.R")
 #source("fun-analyzecounts.R")

@@ -6,11 +6,19 @@ protlineplot_dat <- function(df_norm_prot, ids, protsel_id){
 }
 
 protlineplot_fun <- function(df_norm_prot, 
-                      ids, protsel_id, fill="#E69F00FF", size = 0.3, scale = 0.9, min_graphic_details = FALSE, condition = FALSE, facets = NULL){
-   print(fill)
+                             ids,
+                             protsel_id,
+                             fill="#E69F00FF",
+                             size = 0.3,
+                             scale = 0.9,
+                             min_graphic_details = FALSE,
+                             condition = FALSE,
+                             facets = NULL
+                             )
+{
    print("lines_fun")
-   print(names(df_norm_prot))
-   print(protsel_id)
+   #print(names(df_norm_prot))
+   #print(protsel_id)
    df_sel <- df_norm_prot %>% filter(ID %in% protsel_id)
    
 
