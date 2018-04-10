@@ -102,7 +102,7 @@ tabPanel("Input Data",
                                                '.csv')),
 
                             conditionalPanel(condition = "input.inputdat_type=='peps'",
-                                      fileInput('proteomedata', 'Choose Fasta file containing sequence IDs matching data file IDs)',
+                                      fileInput('proteomefile', 'Choose Fasta file containing sequence IDs matching data file IDs)',
                                       accept=c('fa/fasta', 
                                                '.fa',
                                                '.fasta'))
