@@ -29,7 +29,7 @@ shinyServer(function(input, output,session) {
   ## Server functions are divided by tab
   ## 
   source("server/server-inputdata.R",local = TRUE)
-  source("server/server-lines.R",local = TRUE)
+  source("server/server-peplines.R",local = TRUE)
   source("server/server-protlines.R",local = TRUE)
   #source("server/server-heatmap.R",local = TRUE)
   #source("server-samplegroupplots.R",local=TRUE)

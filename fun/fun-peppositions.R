@@ -1,9 +1,9 @@
 
-pepplot_fun <- function(df_full, 
-                      ids, sel_id){
+pepcovplot_fun <- function(df_full, 
+                      ids, pepsel_id){
    print("pepplot_fun")
    print(names(df_full))
-   df_sel <- df_full %>% filter(ID == sel_id)
+   df_sel <- df_full %>% filter(ID == pepsel_id)
    print(head(df_sel))
    cov <- ggplot(data = df_sel, aes(x = fct_reorder(Peptide, desc(Start)))
 ) +

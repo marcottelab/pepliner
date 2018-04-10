@@ -49,7 +49,7 @@ library(readr)
 
 ##================================================================================##
 
-source("fun/fun-lines.R")
+source("fun/fun-peplines.R")
 source("fun/fun-peppositions.R")
 source("fun/fun-protlines.R")
 #source("fun-heatmap.R")
