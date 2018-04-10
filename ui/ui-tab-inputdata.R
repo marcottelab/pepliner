@@ -99,11 +99,19 @@ tabPanel("Input Data",
                             fileInput('datafile', 'Choose File Containing Data (.CSV)',
                                       accept=c('text/csv', 
                                                'text/comma-separated-values,text/plain', 
-                                               '.csv'))
+                                               '.csv'))#,
+
+                            #conditionalPanel(condition = "input.inputdat_type=='peps'",
+                            #          fileInput('proteomefile', 'Choose Fasta file containing sequence IDs matching data file IDs)',
+                            #          accept=c('fa/fasta', 
+                            #                   '.fa',
+                            #                   '.fasta'))
+                            #                )
+
 
 
  
-                            )
+                            ) #End condition=upload
 
            ),
            conditionalPanel("output.fileUploaded",
