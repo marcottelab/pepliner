@@ -1,15 +1,10 @@
-Make data subset actually initiate download of csv
+Make data subset actually initiate download of csv instead of html page
 
-Add faceting option to plots
-? Including multiple columns to facet by?
+? Make 'submit' button for for updating plots. Slow to change multiple things now ?
 
-? Option to filter for experiments ?? 
+? Make pepplot and covplot react separately, so both don't have to be made with facet updates ?
 
 ? Collapse plot options?
-
-Add multiple condition options (ie heavy/light, treated/untreated)
-
-Add options added to protein plot to peptide plot
 
 Change Data upload to check column names, and restate need for ID columns etc. 
 

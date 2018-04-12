@@ -36,7 +36,7 @@ tabPanel("Protein plots",
            checkboxInput("min_graphic_details",label="Minimal graphic details?", FALSE),
            checkboxGroupInput('facets', 'Column(s) to facet by', choices = list("ExperimentID", "condition")),
            checkboxInput("condition",label="Group lines by condition?", FALSE),
-
+           uiOutput("ExperimentControls"),
            #checkboxInput("fillUnder",label="Fill color under line?", TRUE),
            colourInput("fill", "Fill color", "#E69F00", allowTransparent = TRUE),    
            numericInput("linewidth", "Line size", min = 0, value = 0.3, step = 0.2), 
