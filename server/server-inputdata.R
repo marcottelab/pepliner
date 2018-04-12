@@ -27,7 +27,7 @@ observe({
          message = "Please select a file")
   )
   inFile <- input$datafile
-
+  inProteome <- input$proteomefile
 })
 
 
@@ -48,6 +48,7 @@ inputDataReactive <- reactive({
   inRFile <- input$rdatafile
  # browser()
 
+  #This is for handling preloaded data
   if(input$data_file_type=="examplecounts") {
     # upload example data
     seqdata <- read_csv("data/Hs_CB660_1105_peptide_elution_human_protein_minimal.csv")
@@ -59,17 +60,26 @@ inputDataReactive <- reactive({
       load(inRFile$datapath,envir = environment())
       return(list("data" = data_results_table)) # this is so something shows in data upload window
     }else{return(NULL)}
+
+  #This is for handling uploaded data
   }else { # if uploading data
+
     if (!is.null(inFile)) {
       seqdata <- read_csv(inFile$datapath)
       print('uploaded seqdata')
-      if(ncol(seqdata)==1) { # if file appears not to work as csv try tsv
-        seqdata <- read_tsv(inFile$datapath)
-        print('changed to tsv, uploaded seqdata')
-      }
+         if(ncol(seqdata)==1) { # if file appears not to work as csv try tsv
+            seqdata <- read_tsv(inFile$datapath)
+            print('changed to tsv, uploaded seqdata')
+         }
       validate(need(ncol(seqdata) > 1,
                     message="File appears to be one column. Check that it is a comma-separated (.csv) file."))
-      return(list('data' = seqdata))}else{return(NULL)}
+
+
+      return(list('data' = seqdata))
+
+
+
+      }else{return(NULL)}
   }
 })
 
