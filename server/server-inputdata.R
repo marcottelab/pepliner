@@ -87,6 +87,8 @@ inputDataReactive <- reactive({
 
 inputProteomeDataReactive <- reactive({
   print("PROTEOME DATA")
+
+  inProteome <- input$proteomefile
   if(input$data_file_type=="examplecounts") {
     # upload example data
     proteomedata <- read_fasta("data/uniprot-proteome_human_reviewed_minimal.fasta")
@@ -101,11 +103,11 @@ inputProteomeDataReactive <- reactive({
             print(inProteome)
             proteomedata <- read_fasta(inProteome$datapath)
       print('uploaded Proteome')
-      validate(need(ncol(seqdata) == 2,
+      validate(need(ncol(proteomedata) == 2,
                     message="File appears to be in Fasta format, not reformatted to two columns"))
 
 
-      return(list('data' = proteomedata))
+      return(list('proteomedata' = proteomedata))
 
 
 
@@ -119,6 +121,15 @@ output$fileUploaded <- reactive({
   return(!is.null(inputDataReactive()))
 })
 outputOptions(output, 'fileUploaded', suspendWhenHidden=FALSE)
+
+
+# check if a file has been uploaded and create output variable to report this
+output$ProteomeFileUploaded <- reactive({
+  return(!is.null(inputProteomeDataReactive()))
+})
+outputOptions(output, 'ProteomeFileUploaded', suspendWhenHidden=FALSE)
+
+
 
 
 
@@ -247,7 +258,7 @@ output$countdataDT <- renderDataTable({
 })
 output$proteomeDT <- renderDataTable({
   tmp2 <- inputProteomeDataReactive()
-  if(!is.null(tmp2)) tmp2$data
+  if(!is.null(tmp2)) tmp2$proteomedata
 })
 
 
