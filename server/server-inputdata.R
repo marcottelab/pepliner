@@ -26,6 +26,7 @@ observe({
     need((input$data_file_type=="examplecounts")|((!is.null(input$rdatafile))|(!is.null(input$datafile))),
          message = "Please select a file")
   )
+
   inFile <- input$datafile
   inProteome <- input$proteomefile
 })
@@ -54,7 +55,7 @@ inputDataReactive <- reactive({
     seqdata <- read_csv("data/Hs_CB660_1105_peptide_elution_human_protein_minimal.csv")
     print("uploaded peptide data")
     proteomedata <- read_fasta("data/uniprot-proteome_human_reviewed_minimal.fasta")
-    return(list('data'=seqdata, 'proteomedata'=proteomedata))
+    return(list('data'=seqdata))#, 'proteomedata'=proteomedata))
   }else if(input$data_file_type == "previousrdata"){
     if (!is.null(inRFile)) {
       load(inRFile$datapath,envir = environment())
@@ -83,11 +84,43 @@ inputDataReactive <- reactive({
   }
 })
 
+
+inputProteomeDataReactive <- reactive({
+  print("PROTEOME DATA")
+  if(input$data_file_type=="examplecounts") {
+    # upload example data
+    proteomedata <- read_fasta("data/uniprot-proteome_human_reviewed_minimal.fasta")
+    return(list('proteomedata'=proteomedata))
+
+  }
+
+  #This is for handling uploaded proteomedata
+  else if (input$inputdat_type == "peps"){ # if uploading data
+    
+       if (!is.null(inProteome)) {
+            print(inProteome)
+            proteomedata <- read_fasta(inProteome$datapath)
+      print('uploaded Proteome')
+      validate(need(ncol(seqdata) == 2,
+                    message="File appears to be in Fasta format, not reformatted to two columns"))
+
+
+      return(list('data' = proteomedata))
+
+
+
+      }else{return(NULL)}
+  }
+
+})
+
 # check if a file has been uploaded and create output variable to report this
 output$fileUploaded <- reactive({
   return(!is.null(inputDataReactive()))
 })
 outputOptions(output, 'fileUploaded', suspendWhenHidden=FALSE)
+
+
 
 # after the data is uploaded or example data is selected, analyze the data
 analyzeDataReactive <-
@@ -141,7 +174,7 @@ analyzeDataReactive <-
                     alldata = alldata[,colMeans(is.na(alldata))<1]
                     ids <- alldata %>% select(ID) %>% unique
                     if(input$inputdat_type == "peps" | input$data_file_type == "examplecounts") {
-                          proteomedata <- inputDataReactive()$proteomedata
+                          proteomedata <- inputProteomeDataReactive()$proteomedata
 
                           print("Standardizing proteome")
                           proteomedata$Sequence <- toupper(proteomedata$Sequence)
@@ -212,6 +245,13 @@ output$countdataDT <- renderDataTable({
   tmp <- inputDataReactive()
   if(!is.null(tmp)) tmp$data
 })
+output$proteomeDT <- renderDataTable({
+  tmp2 <- inputProteomeDataReactive()
+  if(!is.null(tmp2)) tmp2$data
+})
+
+
+
 
 observeEvent(input$upload_data, ({
   updateCollapse(session,id =  "input_collapse_panel", open="analysis_panel",

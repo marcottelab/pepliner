@@ -127,6 +127,12 @@ tabPanel("Input Data",
                            bsCollapsePanel(title="Data Contents: Wait for upload and check Before `Submit`",value="data_panel",
                                            dataTableOutput('countdataDT')                       
                            ),
+
+                           bsCollapsePanel(title="Proteome Contents: Wait for upload and check Before `Submit`",value="proteome_panel",
+                                           dataTableOutput('proteomeDT')                       
+                           ),
+
+
                            bsCollapsePanel(title="Analysis Results: Ready to View Other Tabs",value="analysis_panel",
                                            downloadButton('downloadResults_CSV','Save Results as CSV File'),
                                            downloadButton('downloadResults_RData',
