@@ -23,6 +23,7 @@ Imports:
 	stringr,
 	tidyr,
         DT,
+        purrr,
         colourpicker
 VignetteBuilder: knitr
 Collate:

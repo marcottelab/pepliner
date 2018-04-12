@@ -189,16 +189,24 @@ analyzeDataReactive <-
 
                           print("Standardizing proteome")
                           proteomedata$Sequence <- toupper(proteomedata$Sequence)
+                          print(head(proteomedata$Sequence))
                           df_peps <- alldata %>% select(Peptide, ID) %>% unique
-
+                          print(head(df_peps))
                           print("mapping peptides to proteome")
                           df_seq <- dplyr::left_join(df_peps, proteomedata, by = "ID")
+                          print(head(df_seq))
                           df_cov <- cov_columns(df_seq)
-
+                          print(head(df_cov))
          
                         if(input$inputdat_format=="tidy" | input$data_file_type == "examplecounts"){
                             print("Completing missing counts")
-                            df_comp <- complete_counts(raw_data = alldata , xaxis = "FractionID", yaxis = "PeptideCount")
+                            alldata <- alldata %>% select(Peptide, ID,FractionID,PeptideCount, ExperimentID, condition)
+                            #df_comp <- complete_counts(raw_data = alldata , xaxis = "FractionID", yaxis = "PeptideCount")
+                            df_comp <- alldata %>% split(.$ExperimentID) %>%  
+                                            map( ~ complete_counts(raw_data = ., xaxis = "FractionID", yaxis = "PeptideCount")) %>%
+                                            bind_rows(.id = "what")
+                            print(df_comp)
+
                         } 
                         if(input$inputdat_format=="wide"){
                             df_comp <- alldata %>% gather(FractionID, PeptideCount, -ID, -Peptide)

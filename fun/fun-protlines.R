@@ -58,7 +58,7 @@ protlineplot_fun <- function(df_norm_prot,
       #If only one facet variable, will get  A
 
       #Facet_grid takes a string. Facet_wrap does not. 
-      protlines <- protlines + facet_grid(facet_str) 
+      protlines <- protlines + facet_grid(facet_str, scales = "free_x") 
 
   } 
 
