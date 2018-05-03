@@ -210,7 +210,7 @@ analyzeDataReactive <-
                         } 
                         if(input$inputdat_format=="wide"){
                             df_comp <- alldata %>% gather(FractionID, PeptideCount, -ID, -Peptide)
-                            df_comp$ExperimentID <- "" #From the wide format, there's no experiment ID info...
+                            df_comp$ExperimentID <- "NoID" #From the wide format, there's no experiment ID info...
                         } 
                         print("Normalizing counts")
                         df_norm <- df_comp %>% group_by(Peptide, ExperimentID, ID) %>%
@@ -239,12 +239,17 @@ analyzeDataReactive <-
                     if(input$inputdat_type=="prots") {
 
                          if(input$inputdat_format == "tidy"){
-                            df_comp_prot <- complete_counts(raw_data = alldata , xaxis = "FractionID", yaxis = "ProteinCount")
+                            #df_comp_prot <- complete_counts(raw_data = alldata , xaxis = "FractionID", yaxis = "ProteinCount")
+                            df_comp_prot <- alldata %>% split(.$ExperimentID) %>%
+                                            map( ~ complete_counts(raw_data = ., xaxis = "FractionID", yaxis = "ProteinCount")) %>%
+                                            bind_rows(.id = "what")
+
                          }
 
                          if(input$inputdat_format == "wide"){
                             print(head(alldata))
                             df_comp_prot <- alldata %>% gather(FractionID, ProteinCount, -ID)
+                            df_comp_prot$ExperimentID = "NoID"
                          } 
 
                          print(head(df_comp_prot))

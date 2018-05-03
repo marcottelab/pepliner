@@ -46,7 +46,6 @@ plotInput <- reactive({
   data_analyzed = analyzeDataReactive()
   df_norm_prot = data_analyzed$df_norm_prot
   ids = data_analyzed$ids
-  print(ids)
   print(input$experiments)
   df_norm_prot = df_norm_prot %>% filter(ExperimentID %in% input$experiments)
   #CDM not sure what this if for# 

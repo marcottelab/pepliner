@@ -80,7 +80,7 @@ tabPanel("Input Data",
                                              img(src="exampleanalysisdata.png",width="100%"),
                                              tags$ul(
                                                tags$li("File must have a header row."), 
-                                               tags$li("First/Left-hand column must be protein name/identifier"),
+                                               tags$li("First/Left-hand column must be called 'ID' and contain row IDs"),
                                                tags$li("Fraction names in right hand columns")
                                              )
                             ),

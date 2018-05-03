@@ -1,7 +1,7 @@
 protlineplot_dat <- function(df_norm_prot, ids, protsel_id){
    print("protlines_dat")
    df_sel <- df_norm_prot %>% filter(ID %in% protsel_id)
-   print(names(df_sel))
+   #print(names(df_sel))
    return(df_sel)
 }
 
