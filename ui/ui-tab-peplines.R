@@ -56,7 +56,10 @@ tabPanel("Peptide plots",
            numericInput("pep_plotratio", "Plot size ratio, left:right, 1:?", min = 0, value = 1, step = 0.5), 
            numericInput("pep_plotwidth", "Width", min = 0, value = 600, step = 50), 
            numericInput("pep_plotheight", "Height", min = 0, value = 600, step = 50),
- 
+
+           numericInput("pep_trueplotwidth", "Download plot Width (inches)", min = 0, value = 5, step = 1), 
+           numericInput("pep_trueplotheight", "Download plot Height (inches)", min = 0, value = 3, step = 1),
+  
            downloadButton('downloadPepPlot', 'Download Plot')
          ) #end WellPanel  
          ),

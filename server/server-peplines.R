@@ -136,7 +136,7 @@ output$downloadPepPlot <- downloadHandler(
     content = function(file) {
         #ggsave(file, plot = plotInput(), device = "pdf")
         #file.copy(paste('peplineplot_', paste(input$pepsel_id, collapse="_"), '.pdf', sep='') , file, overwrite=TRUE)
-        ggsave(file, plot = pepplotInput(), device = input$device, width=0.08*input$pep_plotwidth, height=0.08*input$pep_plotheight, units='cm')
+        ggsave(file, plot = pepplotInput(), device = input$device, width=input$pep_trueplotwidth, height=input$pep_trueplotheight, units='in')
     }
 )
 

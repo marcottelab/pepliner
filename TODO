@@ -1,4 +1,6 @@
 
+Fix download filename from pdf from pepplot
+
 Make data subset actually initiate download of csv instead of html page
 
 ? Make 'submit' button for for updating plots. Slow to change multiple things now ?
@@ -8,5 +10,20 @@ Make data subset actually initiate download of csv instead of html page
 ? Collapse plot options?
 
 Change Data upload to check column names, and restate need for ID columns etc. 
+
+Really need to fix alignment of sparklines and peptide coverage plot
+
+Choose examples for paper
+
+Write paper
+
+Make figures
+
+Make vignette of example. Use same code as pepliner. Package code into functions??
+
+Probably to avoid repeats or not probably to increase customizability
+
+Check style for tidyverse using functions
+
 
  
