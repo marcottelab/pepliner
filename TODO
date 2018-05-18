@@ -1,3 +1,4 @@
+Make optional columns more optional (especially condition)
 
 Fix download filename from pdf from pepplot
 
@@ -12,8 +13,6 @@ Make data subset actually initiate download of csv instead of html page
 Change Data upload to check column names, and restate need for ID columns etc. 
 
 Really need to fix alignment of sparklines and peptide coverage plot
-
-Choose examples for paper
 
 Write paper
 

@@ -7,38 +7,177 @@ output:
     fig_width: 8
     fig_height: 6
     warning: FALSE
+    messages: FALSE
 vignette: >
   %\VignetteIndexEntry{Introduction to pepliner}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
 
-#Introduction
+# Introduction
 
-We had a need for tools to visualize the elution of peptides or proteins across fractions. 
+The `Pepliner` packages is a set of tools and a shiny app for visualizing the elution of peptides or proteins across fractions or experiments. In a fractionation mass spectrometry experiment, a protein sample is separated across a biochemical gradient into multiple fractions. Fractions are portions of the original sample in order of size or charge depending on the biochemical column used. Applying mass spectrometry proteomics give the identities of the set of proteins in each fraction. The point at which a protein elutes into a fraction gives information about size or charge. If the protein lysate is native (low soap), proteins that are in the same stable protein complex with elute at the same points. While we typically look at protein-level patterns, where the observations of the peptides are summed, we additional find interesting information from looking at the elutions of peptides from the same protein. 
+ 
+Functions from the `Pepliner` package can either be used to process data from fractionation experiments, or the `Pepliner` Shiny application can be used to interactively plot and format protein-level or peptide-level elutions for a fractional experiment or a set of fractionation experiments.  
 
-# Basic usage
+---
+
+# Installation
 
 ```{r}
-library(cowplot)
-library(ggridges)
-library(dplyr)
-library(ggplot2)
-library(forcats)
-library(pepliner)
-
-#df <- data("msdata")
-#df_comp <- complete_counts(raw_data=df, xaxis="FractionID", yaxis="PeptideCount")
-
-#print(df_comp)
-
-#df_sel <- df_comp %>% filter(ID =="sp|Q9P258|RCC2_HUMAN")
-
-#df_norm <- df_sel %>% group_by(Peptide) %>% mutate(PeptideCount = normalit(PeptideCount))
-
-#print(df_norm)
-
-#df_cov <- cov_columns(data_table = df_norm, proteome="proteome.fasta", groupid = "ID", elementid = "Peptide")
-
-#print(df_cov)
+devtools::install_github("marcottelab/pepliner")
 ```
+
+# Using `pepliner` as an interactive application to visualize peptide or protein elutions
+
+
+First load the pepliner library, then launch app with 
+```{r eval=FALSE}
+library(pepliner)
+shiny::runApp(launch.browser = TRUE)
+```
+The app comes preloaded with an example dataset which can be used to preview app functions. 
+
+
+### Interactively plot a set of proteins (protein-level visualization)
+
+#### Protein data
+
+- Must be a .csv*comma-separated-value* file (you can export this format from Excel).
+- Upload data either in wide or [tidy](http://r4ds.had.co.nz/tidy-data.html) format
+
+##### Protein data in wide format
+
+- Must contain a column called ID, with remaining columns rightward named for individual fractions
+- Each row is a proteins's detection across fractions
+- In the example below, 1 count of ProteinA was seen in Fraction2, and 3 counts were seen in Fraction 3
+
+| ID  | Fraction1  | Fraction2  | Fraction3  |
+|---|---|---|---|
+| ProteinA  | 0  | 1  | 3  |
+| ProteinB  | 5  | 25  | 10  |
+
+Loading wide format protein data will automatically reformat it into the tidy format, which can then be downloaded from the `Input Data` screen. 
+
+
+##### Protein data in tidy format
+- Input .csv file must contain columns called: ID, ProteinCount, and FractionID (in any order)
+- Each row is a protein's detection in a single fraction
+- ProteinA was seen in Fraction2 once
+- ProteinA was seen in Fraction3 three times
+- Zero value rows (ProteinCount is 0) do not need to be included in the input file
+
+| ID | FractionID | ProteinCount |
+|---|---|---|
+| ProteinA  | Fraction1  | 0  |
+| ProteinA  | Fraction2  | 1  |
+| ProteinA  | Fraction3  | 3  |
+| ProteinB  | Fraction1  | 5  |
+| ProteinB  | Fraction2  | 25  |
+| ProteinB  | Fraction3  | 10  |
+
+The benefit of the tidy format is that you can add two optional additional columns of information, ExperimentID and condition
+
+| ID | FractionID | ProteinCount | ExperimentID | condition |
+|---|---|---|---|---|
+| ProteinA  | Fraction1  | 0  | Experiment1 | heavy |
+| ProteinA  | Fraction2  | 1  | Experiment1 | light |
+| ProteinA  | Fraction3  | 3  | Experiment1 | heavy |
+| ProteinA  | Fraction1  | 5  | Experiment2 | heavy |
+| ProteinA  | Fraction2  | 25  | Experiment2 | light |
+| ProteinB  | Fraction3  | 10  | Experiment1 | light |
+
+The `ExperimentID` columns allows you to `facet`, or make one plot per experiment. The condition column allows you to color peptide that come from different conditions, or facet the plot by condition. 
+
+#### View Protein elutions
+
+From the `Protein plots` tab, you can start view protein elutions. 
+
+ - Start typing a protein name in the input box to add it. Multiple proteins can be added. You can choose to facet by Experiment ID or condition if those columns are present. Minimal theme removes multiple plot elements for a simplified figure.
+
+![](protplot_img.png)
+
+ 
+ - Plots can be downloaded as either a png or a pdf. 
+ - Data used in each plot can also be downloaded from the `Data Output` subtab. 
+ - By default, normalized elutions are shown (where each elution track has a max 1 and a min 0). Check 'Use raw values' to view unnormalized elutions. 
+ - Use the three interactive panels of the color picker to pick 1) shade, 2) color, and 3) transparency. Full transparency will display no fill under the line
+![](colourpicker_img.png)
+
+PUT A SCREENSHOT HERE.
+
+###  Interactively plot peptides from a single protein (peptide-level visualization) 
+
+
+1. Interactively select a series of proteins to plot
+2.
+- *Explore* the app's features with the example data set pre-loaded by clicking on the tabs above.
+- *Upload* your data in the "Input Data" tab.
+
+
+
+### <a name="dataformats"></a> Data Format
+
+- Must be a .CSV *comma-separated-value* file (you may export from Excel).
+- File must have a header row. 
+- Depending on whether uploading protein-level or peptide-level data format as follows:
+ 
+#### Peptide data
+
+- Must be a .CSV *comma-separated-value* file (you may export from Excel).
+
+
+##### Wide format
+- Must contain a columns called Peptide and ID, with remaining rightward columns representing individual fractions
+- Each row is a peptide's detection across fractions.
+
+|Peptide| ID | Fraction1 | Fraction2 | Fraction3 |
+|---|---|---|---|---|
+|AAGTEPR| ProteinA | 0 | 1 | 1 |
+|CNMETLLK| ProteinA | 0 | 0 | 2 |
+|IPRELVK| ProteinB | 2 | 12 | 2 |
+|MITFPELLR| ProteinB | 3 | 13 | 8 |
+##### Tidy format
+- Must contain columns Peptide, ID, PeptideCount, FractionID (in any order)
+- Each row is a peptide's detection in a single fraction
+
+|Peptide| ID | FractionID | ProteinCount |
+|---|---|---|---|
+|AAGTEPR| ProteinA | Fraction2 | 1 |
+|AAGTEPR| ProteinA | Fraction3 | 1 |
+|CNMETLLK| ProteinA | Fraction3 | 2 |
+|IPRELVK| ProteinB | Fraction1 | 2 |
+|IPRELVK| ProteinB | Fraction2 | 12 |
+|IPRELVK| ProteinB  | Fraction3  | 2  |
+|MITFPELLR| ProteinB  | Fraction3  | 3  |
+|MITFPELLR| ProteinB  | Fraction3  | 13  |
+|MITFPELLR| ProteinB  | Fraction3  | 8  |
+
+
+#### <a name="savedata"></a> *TIP*: Save Data for Future Upload
+
+After uploading your data to the pepliner app, click the red button 'Save results at Pepliner Rdata file' to download an .RData file to create a session file to load in future sessions. In the "Input Data" tab, use the "Pepliner RData file" option.
+
+
+#### <a name="help"></a> More Help and Info
+
+Additional help information and more detailed instructions are provided under the "Instructions" tab.
+
+#### App Info
+
+
+#### Provenance
+
+The source code for pepliner is available on [Github](https://github.com/marcotte_lab/pepliner).
+
+A paper describing use of peptide elutions to identify proteoforms will be posted on [BioRxiv](biorxiv.org).
+
+Pepliner was modified from the START app developed by Jessica Minnier, Jiri Sklenar, Anthony Paul Barnes, and Jonathan Nelson
+of Oregon Health & Science University, Knight Cardiovascular Institute and School of Public Health.
+
+[Nelson, JW, Sklenar J, Barnes AP, Minnier J. (2016) "The START App: A Web-Based RNAseq Analysis and Visualization Resource." Bioinformatics.  doi: 10.1093/bioinformatics/btw624.](http://bioinformatics.oxfordjournals.org/content/early/2016/09/27/bioinformatics.btw624.abstract)
+
+The original source code of START is available on [Github](https://github.com/jminnier/STARTapp).
+
+
+

@@ -67,13 +67,13 @@ tagList(
     ## ==================================================================================== ##
     ## FOOTER
     ## ==================================================================================== ##              
-    footer=p(hr(),p(("ShinyApp created by Claire McWhite of UT Austin"),align="center", width=4),
+    footer=p(hr(),p(("ShinyApp created by Claire McWhite of UT Austin"),align="center", width=4)#,
              #p(("Code available on Github:"),a("https://github.com/marcottelab/pepliner",href="https://github.com/marcottelab/pepliner"),align="center",width=4),
-              p(("modified from START app by {Jessica Minnier + Jiri Sklenar + Jonathan Nelson} of "),align="center",width=4),
-             p(("Knight Cardiovascular Institute, Oregon Health & Science University"),align="center",width=4),
-             p(("Copyright (C) 2016, code licensed under GPLv3"),align="center",width=4),
-             p(("Original code available on Github:"),a("https://github.com/jminnier/STARTapp",href="https://github.com/jminnier/STARTapp"),align="center",width=4),
-             p(a("Nelson JW, Sklenar J, Barnes AP, Minnier J. (2016) `The START App: A Web-Based RNAseq Analysis and Visualization Resource.` Bioinformatics.  doi: 10.1093/bioinformatics/btw624.",href="http://bioinformatics.oxfordjournals.org/content/early/2016/09/27/bioinformatics.btw624.abstract"),align="center",width=4)
+              #p(("modified from START app by {Jessica Minnier + Jiri Sklenar + Jonathan Nelson} of "),align="center",width=4),
+             #p(("Knight Cardiovascular Institute, Oregon Health & Science University"),align="center",width=4),
+             #p(("Copyright (C) 2016, code licensed under GPLv3"),align="center",width=4),
+             #p(("Original code available on Github:"),a("https://github.com/jminnier/STARTapp",href="https://github.com/jminnier/STARTapp"),align="center",width=4),
+             #p(a("Nelson JW, Sklenar J, Barnes AP, Minnier J. (2016) `The START App: A Web-Based RNAseq Analysis and Visualization Resource.` Bioinformatics.  doi: 10.1093/bioinformatics/btw624.",href="http://bioinformatics.oxfordjournals.org/content/early/2016/09/27/bioinformatics.btw624.abstract"),align="center",width=4)
     )
     
     ## ==================================================================================== ##
