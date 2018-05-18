@@ -141,14 +141,6 @@ analyzeDataReactive <-
 
                     print("analysisCountDataReactive")
 
-                    #if an example just return previously analyzed results
-                    #if(input$data_file_type=="examplecounts") {
-                    #  load('data/mousecounts_example_analysis_results.RData')
-                    #  load('data/mousecounts_example_analyzed.RData') #example_data_results
-                    #  return(list('group_names'=group_names,'sampledata'=sampledata,
-                    #              "results"=results,"data_long"=data_long, "geneids"=geneids,
-                    #              "expr_data"=expr_data,"data_results_table"=example_data_results))
-                   # }
 
                     #if uploading own data:
 
@@ -163,8 +155,10 @@ analyzeDataReactive <-
                     #}
  
                     #if(input$data_file_type == "examplecounts" | input$inputdat_type == "peps" | input$inputdat_format == "tidy"){
+                    ############################# DATA PROCESSING ###############################
 
                     alldata <- inputDataReactive()$data
+
                     # Check for numeric columns
                     not_numeric <- function(input) {
                       if(sum(unlist(lapply(input,function(k) class(k) %in% c("numeric","integer"))))==0) {
@@ -184,42 +178,39 @@ analyzeDataReactive <-
                     # remove empty columns
                     alldata = alldata[,colMeans(is.na(alldata)) < 1]
                     ids <- alldata %>% select(ID) %>% unique
+                    # Add missing columns if not provided
+                    if(!"ExperimentID" %in% names(alldata)){
+                           alldata$ExperimentID <- "Experiment1"
+                      }
+                            
+                    if(!"condition" %in% names(alldata)){
+                           alldata$condition <- "Condition1"
+                    }
+ 
+
                     if(input$inputdat_type == "peps" | input$data_file_type == "examplecounts") {
                           proteomedata <- inputProteomeDataReactive()$proteomedata
 
-                          print("Standardizing proteome")
-                          #Actually do this in cov_columns function
-                          #proteomedata$Sequence <- toupper(proteomedata$Sequence)
-                          print(head(proteomedata$Sequence))
                           df_peps <- alldata %>% select(Peptide, ID) %>% unique
-                          #df_peps$Peptide <- toupper(df_peps$Peptide) 
-                          print(head(df_peps))
                         
                           print("mapping peptides to proteome")
                           df_seq <- dplyr::left_join(df_peps, proteomedata, by = "ID")
-                          print(head(df_seq))
                           df_cov <- cov_columns(df_seq)
-                          print(head(df_cov))
          
                         if(input$inputdat_format=="tidy" | input$data_file_type == "examplecounts"){
                             print("Completing missing counts")
+
                             alldata <- alldata %>% select(Peptide, ID,FractionID,PeptideCount, ExperimentID, condition)
-                            #df_comp <- complete_counts(raw_data = alldata , xaxis = "FractionID", yaxis = "PeptideCount")
                             df_comp <- alldata %>% group_by(ExperimentID) %>%
                                 spread(FractionID, PeptideCount, fill=0) %>% 
-                                gather(FractionID, PeptideCount, unique(df$FractionID)) %>% ungroup
+                                gather(FractionID, PeptideCount, unique(alldata$FractionID)) %>% ungroup
 
 
-
-                            #df_comp <- alldata %>% split(.$ExperimentID) %>%  
-                            #                map( ~ complete_counts(raw_data = ., xaxis = "FractionID", yaxis = "PeptideCount")) %>%
-                            #                bind_rows(.id = "what")
-                            print(head(df_comp))
 
                         } 
                         if(input$inputdat_format=="wide"){
-                            df_comp <- alldata %>% gather(FractionID, PeptideCount, -ID, -Peptide)
-                            df_comp$ExperimentID <- "NoID" #From the wide format, there's no experiment ID info...
+                            df_comp <- alldata %>% gather(FractionID, PeptideCount, -condition, -ExperimentID, -ID)
+
                         }
  
                         print("Normalizing counts")
@@ -231,69 +222,45 @@ analyzeDataReactive <-
 
                         print("Final join")
                         df_full <- left_join(df_norm, df_cov, by = c("Peptide", "ID"))
-     
-                        #Test adding Experiment ID column
-
-    
-                       
+                               
                         #df_prot <- df_comp %>% group_by(ID, FractionID, ExperimentID) %>% 
                         #        summarize(ProteinCount = sum(PeptideCount))
                         
                         df_prot <- df_comp %>% group_by_at(vars(-PeptideCount, -Peptide)) %>% 
                                 summarize(ProteinCount = sum(PeptideCount))
-                        print(head(df_prot)) 
   
+
+                        print('analyze peptide data: done')
+    
+                    }
+                    if(input$inputdat_type=="prots") {
+
+                         if(input$inputdat_format == "tidy"){
+
+                           df_prot <- alldata %>% group_by(ExperimentID) %>%
+                                spread(FractionID, ProteinCount, fill=0) %>% 
+                                gather(FractionID, ProteinCount, unique(alldata$FractionID))
+
+                         }
+
+                         if(input$inputdat_format == "wide"){
+
+                            df_prot <- alldata %>% 
+                                             gather(FractionID, ProteinCount, -condition, -ExperimentID, -ID) 
+                         } 
+
+                         print('analyze protein data: done')
+                         #There's no peptide data if only proteins provided
+                         df_full=NULL                    
+                    }
+
                         df_norm_prot <- df_prot %>% group_by(ID, ExperimentID) %>%
                                    mutate(ExpNormProteinCount = normalit(ProteinCount)) %>% ungroup %>%
                                    group_by(ID) %>%
                                    mutate(ProtNormProteinCount = normalit(ProteinCount)) %>% ungroup
 
-
-                        print('analyze peptide data: done')
-    
-                        return(list('df_full'=df_full, 'ids'=ids$ID, 'df_norm_prot'=df_norm_prot))
-                    }
-                    if(input$inputdat_type=="prots") {
-
-                         if(input$inputdat_format == "tidy"){
-                            #df_comp_prot <- complete_counts(raw_data = alldata , xaxis = "FractionID", yaxis = "ProteinCount")
-                            #df_comp_prot <- alldata %>% split(.$ExperimentID) %>%
-                            #                map( ~ complete_counts(raw_data = ., xaxis = "FractionID", yaxis = "ProteinCount")) %>%
-                            #                bind_rows(.id = "what")
-
-                            df_comp_prot <- alldata %>% group_by(ExperimentID) %>%
-                                spread(FractionID, ProteinCount, fill=0) %>% 
-                                gather(FractionID, ProteinCount, unique(df$FractionID))
-
-
-                         }
-
-                         if(input$inputdat_format == "wide"){
-                            print(head(alldata))
-                            df_comp_prot <- alldata %>% gather(FractionID, ProteinCount, -ID)
-                            df_comp_prot$ExperimentID = "NoID"
-                         } 
-
-                         print(head(df_comp_prot))
-  
-                         df_norm_prot <- df_prot %>% group_by(ID, Experiment) %>%
-                                   mutate(ExpNormProteinCount = normalit(ProteinCount)) %>% ungroup
-                                   group_by(ID) %>%
-                                   mutate(ProtNormProteinCount = normalit(ProteinCount)) %>% ungroup
-
-
-
-
-                         #df_norm_prot <- df_comp_prot %>% 
-                         #          group_by(ID) %>%
-                         #          mutate(ProteinCount = normalit(ProteinCount)) %>% ungroup
                      
-                         print('analyze protein data: done')
-
-                         return(list('df_full'=NULL, 'ids'=ids$ID, 'df_norm_prot'=df_norm_prot))
-                    
-                    }
-
+                        return(list('df_full'=df_full, 'ids'=ids$ID, 'df_norm_prot'=df_norm_prot))
                   })
                 })
 
