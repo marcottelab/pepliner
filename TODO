@@ -25,4 +25,12 @@ Probably to avoid repeats or not probably to increase customizability
 Check style for tidyverse using functions
 
 
+TESTS TO WRITE
+
+
+- Check that uppercase/lowercase matches work
+- Check that weird inputs work
+- Check that fasta headers with annotations work
+
+
  

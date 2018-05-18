@@ -28,6 +28,59 @@ Functions from the `Pepliner` package can either be used to process data from fr
 devtools::install_github("marcottelab/pepliner")
 ```
 
+
+Main pepliner functions
+```{r}
+df <- read_csv("data/Hs_CB660_1105_peptide_elution_human_protein_minimal.csv")
+
+df %>% group_by(ExperimentID) %>%
+       complete(PeptideCount, nesting(Peptide, FractionID)) %>% arrange(PeptideCount)
+
+
+
+prev <- df %>% split(.$ExperimentID) %>%
+     map( ~ complete_counts(raw_data = ., 'FractionID','PeptideCount')) %>%
+     bind_rows(.id = "what")
+
+
+df_tidyr <- df %>% split(.$ExperimentID) %>%
+     map( ~ complete(raw_data = ., nesting('FractionID','PeptideCount'))) %>%
+     bind_rows(.id = "what")
+
+tmp <- df %>% tidyr::spread(FractionID, PeptideCount) 
+
+
+gather(FractionID, PeptideCount, names(.)[!names(.) %in% colnames(df)[!colnames(df) %in% c("FractionID","PeptideCount")]])
+
+names(.)[!names(.) %in% colnames(raw_data)[!colnames(raw_data) %in% c("FractionID","PeptideCount")]]
+
+
+df %>% group_by(ExperimentID) %>%
+       spread(FractionID, PeptideCount) %>% 
+       gather(FractionID, PeptideCount, unique(df$FractionID))
+
+
+
+
+tmp %>% gather(FractionID, PeptideCount, unique(df$FractionID))
+
+
+
+tmp %>% unique(df$FractionID)
+
+
+function(raw_data,xaxis,yaxis){
+
+    #spread and gather leaving every other column than xaxis and yaxis intact.
+    data_spread <- raw_data %>% tidyr::spread_(xaxis, yaxis)
+    post_data <- data_spread %>% tidyr::gather_(xaxis, yaxis, names(.)[!names(.) %in% colnames(raw_data)[!colnames(raw_data) %in% c(xaxis,yaxis)]])
+
+
+
+
+```
+
+
 # Using `pepliner` as an interactive application to visualize peptide or protein elutions
 
 

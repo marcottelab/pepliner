@@ -15,7 +15,7 @@ complete_counts <- function(raw_data,xaxis,yaxis){
 
     #spread and gather leaving every other column than xaxis and yaxis intact.
     data_spread <- raw_data %>% tidyr::spread_(xaxis, yaxis)
-    post_data <- data_spread %>% tidyr::gather_(xaxis, yaxis, names(.)[!names(.)%in%colnames(raw_data)[!colnames(raw_data)%in%c(xaxis,yaxis)]])
+    post_data <- data_spread %>% tidyr::gather_(xaxis, yaxis, names(.)[!names(.) %in% colnames(raw_data)[!colnames(raw_data) %in% c(xaxis,yaxis)]])
     #fill missing combinations in the data with 0.
     post_data[is.na(post_data)] <- 0
     #this should be redundant.

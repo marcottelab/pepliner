@@ -14,18 +14,20 @@ cov_columns <- function(df, peptide_column="Peptide", sequence_column="Sequence"
 
     df$pepregex <- mapply(gsub, pattern = "[I|J|L]",
                        replacement = "(I|J|L)", df[,peptide_column]) %>% as.vector()
-    #df$pepregex <- pepregex
 
     #create Length vector, to be appended to the original data frame afterwards
-    df$Length <- nchar(mapply(as.character(df$Sequence))
+    print("in cov_columns")
+    print(df$Sequence)
+
+    df <- df %>% mutate(Length = str_length(Sequence))
+    #df$Length <- nchar(mapply(as.character(df$Sequence)))
     #df$Length <- Length
 
     getStartorEnd <- function(peptide_column, sequence_column, s=1){
         #Find start end positions of a substring within a string
-
+        
         #s=1 for start position, s=2 for end position.
-        comparison <- stringr::str_locate_all(sequence_column[1],peptide_column[1])[[1]][,s][1]
-
+        comparison <- stringr::str_locate_all(sequence_column[1],coll(peptide_column[1], ignore_case = TRUE))[[1]][,s][1]
         return(comparison)
     }
     df$Start <- mapply(getStartorEnd, df$pepregex, df$Sequence, 1)
