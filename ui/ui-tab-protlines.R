@@ -46,9 +46,14 @@ tabPanel("Protein plots",
            numericInput("lineoverlap", "Line overlap", min = 0, value = 0.9, step = 0.2), 
 
 
-           radioButtons("device", label = "File type?", choices = c("pdf", "png"), selected="pdf"), 
            numericInput("plotwidth", "Width", min = 0, value = 600, step = 50), 
            numericInput("plotheight", "Height", min = 0, value = 600, step = 50), 
+
+           radioButtons("device", label = "File type?", choices = c("pdf", "png"), selected="pdf"), 
+           numericInput("prot_trueplotwidth", "Download plot Width (inches)", min = 0, value = 5, step = 1),
+           numericInput("prot_trueplotheight", "Download plot Height (inches)", min = 0, value = 3, step = 1),
+
+
            downloadButton('downloadProtPlot', 'Download Plot')
          ) #end WellPanel  
          ), #end column, 

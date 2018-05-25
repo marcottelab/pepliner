@@ -1,12 +1,8 @@
+TO DO
+
 Make optional columns more optional (especially condition)
 
-Fix download filename from pdf from pepplot
-
-Make data subset actually initiate download of csv instead of html page
-
 ? Make 'submit' button for for updating plots. Slow to change multiple things now ?
-
-? Make pepplot and covplot react separately, so both don't have to be made with facet updates ?
 
 ? Collapse plot options?
 
@@ -24,6 +20,16 @@ Probably to avoid repeats or not probably to increase customizability
 
 Check style for tidyverse using functions
 
+ERRORS
+
+Uploading dataframe with NA means normalization doesn't happen. 
+    Important to check/fix. Needs warning, not just overwrite NA with zero
+    Or maybe warn to check that there are no NA if no row displays
+
+Fix download filename from pdf from pepplot
+
+Make data subset actually initiate download of csv instead of html page
+
 
 TESTS TO WRITE
 
@@ -31,6 +37,8 @@ TESTS TO WRITE
 - Check that uppercase/lowercase matches work
 - Check that weird inputs work
 - Check that fasta headers with annotations work
+- Check that Data with NA's are rejected with a warning of what the problematic rows are?
+
 
 
  
