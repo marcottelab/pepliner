@@ -12,16 +12,36 @@ peplineplot_fun <- function(df_full,
                             scale = 0.9,
                             min_graphic_details = FALSE,
                             condition=FALSE,
-                            facets=NULL
+                            facets=NULL,
+                            pepnormscale="Peptide",
+                            pepnormgroup="Experiment"
                            )
 {
+
+#   PepNormPeptideCount 
+    print(pepnormscale)
 
     print(names(df_full))
     df_sel <- df_full %>% filter(ID == pepsel_id)
     print(head(df_sel))
     print("marker0")
 
-    peplines <- ggplot(data = df_sel, aes(x = FractionID, y = fct_reorder(Peptide, desc(Start)), height = PeptideCount)) +#, fill=Condition)) +
+    #These ifs can be replaced after tidyeval introduced to ggplot2
+
+    if(pepnormscale == "None") {
+       peplines <- ggplot(data = df_sel, aes(x = FractionID, y = fct_reorder(Peptide, desc(Start)), height = PeptideCount)) #, fill=Condition)) 
+    }
+    if(pepnormscale == "Peptide" && pepnormgroup == "Experiment"){
+       peplines <- ggplot(data = df_sel, aes(x = FractionID, y = fct_reorder(Peptide, desc(Start)), height = ExpNormPeptideCount)) #, fill=Condition)) 
+
+    }
+
+    if(pepnormscale == "Peptide" && pepnormgroup == "None"){
+       peplines <- ggplot(data = df_sel, aes(x = FractionID, y = fct_reorder(Peptide, desc(Start)), height = PepNormPeptideCount)) #, fill=Condition)) 
+
+    }
+
+    peplines <- peplines  + 
     #geom_ridgeline(stat = "identity", alpha = 0.75, scale = 0.9, fill = "#E69F00", size = 0.3) +
     #geom_ridgeline(stat = "identity", alpha = 0.75, scale = 0.9, fill="white", size = 0.3) +
     ylab("Peptide") +

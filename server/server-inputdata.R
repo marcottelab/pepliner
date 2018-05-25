@@ -218,7 +218,7 @@ analyzeDataReactive <-
                             mutate(ExpNormPeptideCount = normalit(PeptideCount)) %>% ungroup %>%
                             group_by(Peptide, ID) %>% 
                             mutate(PepNormPeptideCount = normalit(PeptideCount)) %>% ungroup
- 
+                         
 
                         print("Final join")
                         df_full <- left_join(df_norm, df_cov, by = c("Peptide", "ID"))

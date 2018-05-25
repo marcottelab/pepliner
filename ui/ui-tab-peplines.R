@@ -37,6 +37,9 @@ tabPanel("Peptide plots",
 
            actionButton("go", "Go"),
 
+           radioButtons("pep_height_normalization", label = "Height normalization?", choices = list("None", "Peptide"), selected= "Peptide"),
+           radioButtons("pep_group_normalization", label = "Group normalization?", choices = list("None", "Experiment"), selected= "Experiment"),
+
            checkboxInput("pep_min_graphic_details",label="Minimal graphic details?", FALSE),
            checkboxInput("pep_pubtheme",label="Publication theme?", FALSE),
            checkboxGroupInput('pep_facets', 'Column(s) to facet by', choices = list("ExperimentID", "condition")),

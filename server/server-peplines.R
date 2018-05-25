@@ -70,8 +70,10 @@ pepplotInput <- reactive({
                     scale = input$pep_lineoverlap,
                     min_graphic_details = input$pep_min_graphic_details,
                     condition=input$pep_condition,
-                    facets=input$pep_facets
-              )
+                    facets=input$pep_facets,
+                    pepnormscale=input$pep_height_normalization,
+                    pepnormgroup=input$pep_group_normalization
+             )
   #ggsave(p, filename="test2.png")
 #  plot(p)
 #}) #renderPlot

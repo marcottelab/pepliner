@@ -8,6 +8,7 @@ protlineplot_dat <- function(df_norm_prot, ids, protsel_id){
 protlineplot_fun <- function(df_norm_prot, 
                              ids,
                              protsel_id,
+                             yaxis="ProteinCount",
                              fill="#E69F00FF",
                              size = 0.3,
                              scale = 0.9,
@@ -21,13 +22,8 @@ protlineplot_fun <- function(df_norm_prot,
    #print(protsel_id)
    df_sel <- df_norm_prot %>% filter(ID %in% protsel_id)
    
-
-   protlines <- ggplot(data = df_sel, aes(x = FractionID, y = ID, height = ProteinCount)) +#, fill=Condition)) +
-    #geom_ridgeline(stat = "identity", alpha = 0.75, scale = 0.9, fill="white", size = 0.3) +
-    #scale_y_discrete(c(0,1), expand = c(0, 0)) +
-    #scale_x_continuous(breaks = seq(0, 10000, 20), expand = c(0,0)) + 
-
-    #facet_wrap(~ExperimentNum + Compartment + Column, nrow = 1, scales = "free_x") +
+   print(head(df_sel))
+   protlines <- ggplot(data = df_sel, aes_(x = ~FractionID, y = ~ID, height = as.name(yaxis))) +#, fill=Condition)) +
     theme(
     strip.background = element_blank(),
     strip.text = element_text(face = "bold", size=8, margin = c(0.0)),
@@ -42,7 +38,8 @@ protlineplot_fun <- function(df_norm_prot,
     ) 
 
   if(condition == TRUE){
-      protlines <- protlines + geom_ridgeline(stat = "identity", scale = scale, size = size, alpha = 0, aes(color = condition, group=paste(condition, ID))) 
+      protlines <- protlines + geom_ridgeline(stat = "identity", scale = scale, size = size, alpha = 0, aes(color = condition, group=paste(condition, ID))) +
+                                                        scale_color_manual(values = c("red", "black")) 
   }
   else{
       protlines <- protlines + geom_ridgeline(stat = "identity", scale = scale, fill = fill, size = size, aes(group=ID)) 
