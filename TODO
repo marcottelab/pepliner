@@ -22,13 +22,16 @@ Check style for tidyverse using functions
 
 ERRORS
 
+Something is definitely up with the peptie coverage mapping after pepliner R code change
+
+Peptides containing J not mapping?? AAFVTSPPJSPDPTTPDYJNSJJASGDJQJSGSAHCTFSTAQK
+
 Uploading dataframe with NA means normalization doesn't happen. 
     Important to check/fix. Needs warning, not just overwrite NA with zero
     Or maybe warn to check that there are no NA if no row displays
 
 Fix download filename from pdf from pepplot
 
-Make data subset actually initiate download of csv instead of html page
 
 
 TESTS TO WRITE

@@ -87,7 +87,7 @@ tabPanel("Peptide plots",
 
 
                   tabPanel(title="Data Output",
-                           h5("Download data for selected peptides")#, downloadButton('Download Data Sutbset as CSV File')#, DT::dataTableOutput("dat_peplineplot")
+                           h5("Download data for selected peptides"), downloadButton('downloadPepLineSubsetData', 'Download Data Subset as CSV File'), DT::dataTableOutput("dat_peplineplot")
                   )#,#end tabPanel
 
 

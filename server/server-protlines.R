@@ -113,13 +113,12 @@ output$downloadProtPlot <- downloadHandler(
 
 ##
 #
-##CDM not sure if this works yet
-#output$downloadSubsetData <- downloadHandler(
+output$downloadProtLineSubsetData <- downloadHandler(
 ##  #To do: make filename from selected IDs
-#  protsel_id_str <- paste(input$protsel_id,collapse="_")
-#  filename = paste('protlineplot', protsel_id_str, '.csv', sep='')
-#  content = function(file) {write.csv(DataLineplotReactive(), file, row.names=FALSE)}
-#)
+  filename = function(){paste('protlineplotdata_', paste(input$protsel_id,collapse="_")
+, '.csv', sep='')},
+  content = function(file) {write.csv(DataProtLineplotReactive(), file, row.names=FALSE)}
+)
 #
 #
 #

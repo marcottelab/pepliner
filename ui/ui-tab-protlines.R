@@ -66,7 +66,7 @@ tabPanel("Protein plots",
                            
                   ),#end tabPanel
                   tabPanel(title="Data Output",
-                           h5("Download data for selected proteins"), downloadButton('Download Data Sutbset as CSV File'), DT::dataTableOutput("dat_protlineplot")
+                           h5("Download data for selected proteins"), downloadButton('downloadProtLineSubsetData','Download Data Subset as CSV File'), DT::dataTableOutput("dat_protlineplot")
                   )#,#end tabPanel
 
 

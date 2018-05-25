@@ -128,10 +128,6 @@ output$dat_peplineplot <- DT::renderDataTable({
 }
 )
 
-output$downloadSubsetData <- downloadHandler(
-  filename = c('peplineplot_data.csv'),
-  content = function(file) {write.csv(DataLineplotReactive(), file, row.names=FALSE)}
-)
 
 output$downloadPepPlot <- downloadHandler(
     filename = function() { paste('peplineplot_', paste(input$pepsel_id, collapse="_"), '.', input$device, sep='') },
@@ -140,5 +136,12 @@ output$downloadPepPlot <- downloadHandler(
         #file.copy(paste('peplineplot_', paste(input$pepsel_id, collapse="_"), '.pdf', sep='') , file, overwrite=TRUE)
         ggsave(file, plot = pepplotInput(), device = input$device, width=input$pep_trueplotwidth, height=input$pep_trueplotheight, units='in')
     }
+)
+
+output$downloadPepLineSubsetData <- downloadHandler(
+##  #To do: make filename from selected IDs
+  filename = function(){paste('peplineplotdata_', paste(input$pepsel_id,collapse="_")
+, '.csv', sep='')},
+  content = function(file) {write.csv(DataLineplotReactive(), file, row.names=FALSE)}
 )
 

@@ -27,6 +27,7 @@ library(pepliner)
 library(cowplot)
 library(forcats)
 library(purrr)
+library(stringr)
 library(colourpicker)
 
 #library(shinyIncubator) #devtools::install_github("rstudio/shinyIncubator")
