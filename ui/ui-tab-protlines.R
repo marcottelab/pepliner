@@ -33,6 +33,9 @@ tabPanel("Protein plots",
                           )
            ), 
 
+           radioButtons("prot_height_normalization", label = "Height normalization?", choices = list("None", "Protein"), selected= "Protein"),
+           radioButtons("prot_group_normalization", label = "Group normalization?", choices = list("None", "Experiment"), selected= "Experiment"),
+
            checkboxInput("min_graphic_details",label="Minimal graphic details?", FALSE),
            checkboxGroupInput('facets', 'Column(s) to facet by', choices = list("ExperimentID", "condition")),
            checkboxInput("condition",label="Group lines by condition?", FALSE),

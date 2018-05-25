@@ -14,7 +14,10 @@ protlineplot_fun <- function(df_norm_prot,
                              scale = 0.9,
                              min_graphic_details = FALSE,
                              condition = FALSE,
-                             facets = NULL
+                             facets = NULL,
+                             protnormscale = "Protein",
+                             protnormgroup = "Experiment"
+
                              )
 {
    print("lines_fun")
@@ -23,7 +26,23 @@ protlineplot_fun <- function(df_norm_prot,
    df_sel <- df_norm_prot %>% filter(ID %in% protsel_id)
    
    print(head(df_sel))
-   protlines <- ggplot(data = df_sel, aes_(x = ~FractionID, y = ~ID, height = as.name(yaxis))) +#, fill=Condition)) +
+
+   if(protnormscale ==  "None"){
+      protlines <- ggplot(data = df_sel, aes(x = FractionID, y = ID, height = ProteinCount)) #, fill=Condition)) +
+   }
+
+   if(protnormscale ==  "Protein" && protnormgroup == "Experiment"){
+      protlines <- ggplot(data = df_sel, aes(x = FractionID, y = ID, height = ExpNormProteinCount)) #, fill=Condition)) +
+   }
+
+   if(protnormscale ==  "Protein" && protnormgroup == "None"){
+      protlines <- ggplot(data = df_sel, aes(x = FractionID, y = ID, height = ProtNormProteinCount)) #, fill=Condition)) +
+   } 
+
+
+
+
+    protlines <- protlines + 
     theme(
     strip.background = element_blank(),
     strip.text = element_text(face = "bold", size=8, margin = c(0.0)),
