@@ -45,7 +45,7 @@ protlineplot_fun <- function(df_norm_prot,
     protlines <- protlines + 
     theme(
     strip.background = element_blank(),
-    strip.text = element_text(face = "bold", size=8, margin = c(0.0)),
+    strip.text = element_text(face = "bold", size=8, margin = margin(0)),
     axis.text.x= element_blank(),
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
@@ -77,11 +77,10 @@ protlineplot_fun <- function(df_norm_prot,
       print(facet_str)
       print(names(df_sel)) 
      #Facet_grid takes a string. Facet_wrap does not. 
-      #protlines <- protlines + facet_wrap(facet_str)#, scales = "free_x") 
+      protlines <- protlines + facet_grid(facet_str, scales = "free_x") 
       #browser()
-      protlines <- protlines + facet_wrap(~ExperimentID) #, scales = "free_x") 
-      browser()
-      #theme(plot.margin=unit(c(0,0,0,0), "cm")
+      #protlines <- protlines + facet_wrap(~ExperimentID) #, scales = "free_x") 
+      #browser()
       print("HERE")
   } 
 

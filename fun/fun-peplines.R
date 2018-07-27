@@ -52,7 +52,7 @@ peplineplot_fun <- function(df_full,
     #facet_wrap(~ExperimentNum + Compartment + Column, nrow = 1, scales = "free_x") +
     theme(
     strip.background = element_blank(),
-    strip.text = element_text(face = "bold", size=8, margin = c(0.0)),
+    strip.text = element_text(face = "bold", size=8, margin = margin(0)),
     axis.text.x= element_blank(),
     axis.title.x = element_blank(),
     axis.line.x = element_blank(),
