@@ -14,7 +14,8 @@ peplineplot_fun <- function(df_full,
                             condition=FALSE,
                             facets=NULL,
                             pepnormscale="Peptide",
-                            pepnormgroup="Experiment"
+                            pepnormgroup="Experiment",
+                            condition_palette=c("red", "black", "lightblue", "orange")
                            )
 {
 
@@ -68,7 +69,8 @@ peplineplot_fun <- function(df_full,
     print(fill)
     print(size) 
     if(condition == TRUE){
-      peplines <- peplines + geom_ridgeline(stat = "identity", scale = scale, size = size, alpha = 0, aes(color = condition, group=paste(condition, Peptide)))
+      peplines <- peplines + geom_ridgeline(stat = "identity", scale = scale, size = size, alpha = 0, aes(color = condition, group=paste(condition, Peptide)))  +
+                                       scale_color_manual(values = condition_palette)
     }
     else{
       peplines <- peplines + geom_ridgeline(stat = "identity", scale = scale, fill = fill, size =size, aes(group=Peptide))

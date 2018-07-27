@@ -200,11 +200,12 @@ analyzeDataReactive <-
                         if(input$inputdat_format=="tidy" | input$data_file_type == "examplecounts"){
                             print("Completing missing counts")
 
+                            #This is NOT working. Troubleshoot later
                             alldata <- alldata %>% select(Peptide, ID,FractionID,PeptideCount, ExperimentID, condition)
-                            df_comp <- alldata %>% group_by(ExperimentID) %>%
-                                spread(FractionID, PeptideCount, fill=0) %>% 
-                                gather(FractionID, PeptideCount, unique(alldata$FractionID)) %>% ungroup
-
+                            #df_comp <- alldata %>% group_by(ExperimentID) %>%
+                            #    spread(FractionID, PeptideCount, fill=0) %>% 
+                            #    gather(FractionID, PeptideCount, unique(alldata$FractionID)) %>% ungroup
+                            df_comp <- alldata
 
 
                         } 
@@ -236,10 +237,22 @@ analyzeDataReactive <-
                     if(input$inputdat_type=="prots") {
 
                          if(input$inputdat_format == "tidy"){
+                            
+                           alldata_fractions <- alldata %>% select(ExperimentID, FractionID) %>% unique 
+                           df_prot <- left_join(alldata_fractions, alldata) 
+                           df_prot$ProteinCount <- df_prot$ProteinCount %>% replace_na(0.001)
+                           test <- df_prot %>% filter(is.na(ProteinCount))
+                           print(test) 
+                           
 
-                           df_prot <- alldata %>% group_by(ExperimentID) %>%
-                                spread(FractionID, ProteinCount, fill=0) %>% 
-                                gather(FractionID, ProteinCount, unique(alldata$FractionID))
+                           #df_prot <- alldata %>% group_by(ExperimentID) %>%
+                           #     spread(FractionID, ProteinCount, fill=0)
+                           #print(df_prot)
+ 
+                           #df_prot <- df_prot %>% gather(FractionID, ProteinCount, 4:n)#, -ID, -ExperimentID, -condition)#, unique(alldata$FractionID))
+                           #nested <- SEC_filt_pos %>% nest(-ExperimentID)
+                           
+
 
                          }
 

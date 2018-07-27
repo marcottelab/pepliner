@@ -22,7 +22,8 @@ cov_columns <- function(df, peptide_column="Peptide", sequence_column="Sequence"
     df <- df %>% mutate(Length = str_length(Sequence))
     #df$Length <- nchar(mapply(as.character(df$Sequence)))
     #df$Length <- Length
-
+  
+    #This needs to be made into one function..??
     getStartorEnd <- function(peptide_column, sequence_column, s=1){
         #Find start end positions of a substring within a string
         

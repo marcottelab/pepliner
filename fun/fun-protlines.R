@@ -16,8 +16,8 @@ protlineplot_fun <- function(df_norm_prot,
                              condition = FALSE,
                              facets = NULL,
                              protnormscale = "Protein",
-                             protnormgroup = "Experiment"
-
+                             protnormgroup = "Experiment",
+                             condition_palette=c("red", "black", "lightblue", "orange")
                              )
 {
    print("lines_fun")
@@ -58,24 +58,31 @@ protlineplot_fun <- function(df_norm_prot,
 
   if(condition == TRUE){
       protlines <- protlines + geom_ridgeline(stat = "identity", scale = scale, size = size, alpha = 0, aes(color = condition, group=paste(condition, ID))) +
-                                                        scale_color_manual(values = c("red", "black")) 
+                                                        scale_color_manual(values = condition_palette) 
   }
   else{
       protlines <- protlines + geom_ridgeline(stat = "identity", scale = scale, fill = fill, size = size, aes(group=ID)) 
   }
 
 
+  #protlines <- protlines + facet_wrap(~ExperimentID)
+  #ggsave(filename = "TEST.png", protlines, device = "png")
 
   if(!is.null(facets)){
   
-      facet_str <- paste(facets, collapse = '+')
+      facet_str <- paste(facets, collapse = ' + ')
       facet_str <- paste("~", facet_str, sep="")
       #Final construct needs to be ~A + B + C + D.
-      #If only one facet variable, will get  A
-
-      #Facet_grid takes a string. Facet_wrap does not. 
-      protlines <- protlines + facet_grid(facet_str, scales = "free_x") 
-
+      #If only one facet variable, will get  ~A
+      print(facet_str)
+      print(names(df_sel)) 
+     #Facet_grid takes a string. Facet_wrap does not. 
+      #protlines <- protlines + facet_wrap(facet_str)#, scales = "free_x") 
+      #browser()
+      protlines <- protlines + facet_wrap(~ExperimentID) #, scales = "free_x") 
+      browser()
+      #theme(plot.margin=unit(c(0,0,0,0), "cm")
+      print("HERE")
   } 
 
   if(min_graphic_details == TRUE){

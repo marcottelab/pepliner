@@ -77,7 +77,8 @@ observe({
 output$protlineplot <- renderPlot({
 
   #if (names(dev.cur()) != "null device") {dev.off()}
-  print(plotInput())
+  #print(plotInput())
+  plot(plotInput())
   #if (names(dev.cur()) != "null device") {dev.off()}
 
 }, width = input$plotwidth, height = input$plotheight) #renderPlot
@@ -106,19 +107,19 @@ output$downloadProtPlot <- downloadHandler(
     content = function(file) {
         #ggsave(file, plot = plotInput(), device = "pdf")
         #file.copy(paste('protlineplot_', paste(input$protsel_id, collapse="_"), '.pdf', sep='') , file, overwrite=TRUE)
-        ggsave(file, plot = plotInput(), device = input$device, width=input$prot_trueplotwidth, height=input$prot_trueplotheight,, units='in')
+        ggsave(file, plot = plotInput(), device = input$device, width=input$prot_trueplotwidth, height=input$prot_trueplotheight, units='in')
     }
 )
 
 
 ##
 #
-output$downloadProtLineSubsetData <- downloadHandler(
+#output$downloadProtLineSubsetData <- downloadHandler(
 ##  #To do: make filename from selected IDs
-  filename = function(){paste('protlineplotdata_', paste(input$protsel_id,collapse="_")
-, '.csv', sep='')},
-  content = function(file) {write.csv(DataProtLineplotReactive(), file, row.names=FALSE)}
-)
+#  filename = function(){paste('protlineplotdata_', paste(input$protsel_id,collapse="_")
+#, '.csv', sep='')},
+#  content = function(file) {write.csv(DataProtLineplotReactive(), file, row.names=FALSE)}
+#)
 #
 #
 #

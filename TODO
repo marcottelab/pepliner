@@ -1,5 +1,7 @@
 TO DO
 
+Add optional metadata, with experiment order, experiment colors, condition colors
+
 Make optional columns more optional (especially condition)
 
 ? Make 'submit' button for for updating plots. Slow to change multiple things now ?
